@@ -476,26 +476,31 @@ async def buy_vip(message):
 @dp.message_handler(lambda message: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
+
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			(SetName.waiting.value)
+			buying_dayy(message)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: SetName.waiting.value)
-async def buying_day(message):
+@dp.message_handler(lambda message: message)
+async def buying_dayy(message):
+
 	try:
-		kumaha = int(message.text)
-		await message.answer('Успешно')
-		if db.get_vip_ends(message.text.id)[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
+        
+		if db.get_vip_ends(int(message.text))[0] is None:
+			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+                
 		else:
 			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(message.text.id)[0], '%d.%m.%Y %H:%M') +
-			 	 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+				 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.text)
+
+	except Exception as e:
+		warning_log.warning(e)
 	
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
