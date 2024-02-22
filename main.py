@@ -497,14 +497,14 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			(SetName.waiting.value)
+			db.set_state(SetId.waiting.value, call.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == SetName.waiting.value)
+@dp.message_handler(lambda message: message.text == SetId.waiting.value)
 async def buyday_acc(message):
 	try:
 		message.text = message.from_user.id
