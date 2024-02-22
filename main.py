@@ -85,13 +85,13 @@ async def registrate(message):
 @dp.message_handler(state=RegState.name)
 async def set_name(message, state: FSMContext):
 	await state.update_data(name=message.text)
-	await message.answer("Sekarang masukkan jenis kelamin Anda (М/F).")
+	await message.answer("Sekarang masukkan jenis kelamin Anda (M/F).")
 	await RegState.sex.set()
 
 
 @dp.message_handler(state=RegState.sex)
 async def set_sex(message, state: FSMContext):
-	if message.text == 'м' or message.text == 'М':
+	if message.text == 'м' or message.text == 'M':
 		await state.update_data(sex='male')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
@@ -100,7 +100,7 @@ async def set_sex(message, state: FSMContext):
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	else:
-		await message.reply("Anda memasukkan nilai yang salah, harus menggunakan angka, silakan masukkan lagi.")
+		await message.reply("Anda memasukkan nilai yang salah, silakan masukkan lagi.")
 
 
 @dp.message_handler(state=RegState.age)
@@ -110,7 +110,7 @@ async def set_age(message, state: FSMContext):
 		await message.answer("tinggal di negara mana?")
 		await RegState.country.set()
 	else:
-		await message.reply("Anda memasukkan nilai yang salah, silakan masukkan kembali")
+		await message.reply("Anda memasukkan nilai yang salah, ketik dengan angka, silakan masukkan kembali")
 
 
 @dp.message_handler(state=RegState.country)
