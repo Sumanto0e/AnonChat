@@ -504,7 +504,7 @@ async def buy_day(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == message.text.isdigit())
+@dp.message_handler(lambda message: message.text.isdigit())
 async def buyday_acc(message):
 	try:
 		kumaha = int(message.text)
