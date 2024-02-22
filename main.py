@@ -320,11 +320,11 @@ async def ref(message):
 		await message.answer(f'Diamond anda {db.get_points(user_id)[0]} 💎')
 		if bool(db.get_notifications(message.from_user.id)[0]):
 			await message.answer(f'🆔 Tautan referensi Anda:\n'
-			                     f'{"@Cintasatumalambot?start=" + str(user_id)}',
+			                     f'{"https://t.me/Cintasatumalambot?start=" + str(user_id)}',
 			                     disable_web_page_preview=True, reply_markup=kb.off_kb)
 		else:
 			await message.answer(f'🆔 Tautan refrensi Anda:\n'
-			                     f'{"@Cintasatumalambot?start=" + str(user_id)}',
+			                     f'{"https://t.me/Cintasatumalambot?start=" + str(user_id)}',
 			                     disable_web_page_preview=True, reply_markup=kb.on_kb)
 	except Exception as e:
 		warning_log.warning(e)
