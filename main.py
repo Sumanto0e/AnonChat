@@ -492,12 +492,12 @@ async def buy_vip(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per hari')
+@dp.message_handler(lambda c: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
-			await bot.answer_callback_query(call.id, 'Masukkan nama Anda:')
-			db.set_state(SetName.waiting.value, call.from_user.id)
+			await message.answer('send id')
+			db.set_state(SetName.waiting.value, message.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
