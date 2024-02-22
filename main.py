@@ -246,12 +246,6 @@ async def editing_city(message):
 		warning_log.warning(e)
 
 
- @dp.message_handler(commands=['edit_op_sex'])
- @dp.callback_query_handler(lambda call: call.data == 'op_sex')
- async def edit_op_sex(call):
-     await bot.answer_callback_query(call.id, 'Введите пол собеседника:')
-     db.set_state(SetSets.waiting.value, call.from_user.id)
-
 
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
 async def editing_op_sex(message):
