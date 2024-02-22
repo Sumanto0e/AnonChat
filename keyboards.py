@@ -75,5 +75,5 @@ statistic_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(top).add(to_main)
 
 top_messages = KeyboardButton('🔝 5 teratas berdasarkan pesan')
 top_likes = KeyboardButton('🔝 5 teratas berdasarkan suka')
-top_refs = KeyboardButton('🔝 5 teratas oleh referal
+top_refs = KeyboardButton('🔝 5 teratas berdasarkan referal')
 top_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(top_messages).add(top_likes).add(top_refs).add(to_main)
