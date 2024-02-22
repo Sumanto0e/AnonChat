@@ -478,19 +478,24 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			db.set_state(SetName.waiting.value, call.from_user.id)
+			(SetName.waiting.value)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
-async def editing_name(message):
+@dp.message_handler(lambda message: SetName.waiting.value)
+async def buying_day(message):
 	try:
-		await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
-	except Exception as e:
-		warning_log.warning(e)
+		kumaha = int(message.text)
+		await message.answer('Успешно')
+		if db.get_vip_ends(message.text.id)[0] is None:
+		db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
+		else:
+		db.edit_vip_ends(
+			(datetime.strptime(db.get_vip_ends(message.text.id)[0], '%d.%m.%Y %H:%M') +
+			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
 	
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
