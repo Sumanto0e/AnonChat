@@ -497,14 +497,14 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			db.set_state(SetId.waiting.value, call.from_user.id)
+			(message.text.isdigit)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetId.waiting.value)
+@dp.message_handler(lambda message: message.text == message.text.isdigit())
 async def buyday_acc(message):
 	try:
 		kumaha = int(message.text)
@@ -517,8 +517,7 @@ async def buyday_acc(message):
 		
 	except Exception as e:
 		warning_log.warning(e)
-	except Exception as e:
-		warning_log.warning(e)
+	
 
 
 
