@@ -507,12 +507,9 @@ async def buy_day(message):
 dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
 async def buyday_acc(message):
 	try:
-		await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
-		await bot.send_message(kumaha.id, "selamat anda telah ditambahkan VIP 1 hari")
-		db.edit_vip_ends(
-			(datetime.strptime(db.get_vip_ends(message.text)[0], '%d.%m.%Y %H:%M') +
-			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
-
+		db.edit_op_sex(message.text, message.from_user.id)
+		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+		db.set_state(SetSets.nothing.value, message.from_user.id)
 
 	except Exception as e:
 		warning_log.warning(e)
