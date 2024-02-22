@@ -479,7 +479,7 @@ async def buy_day(message):
 
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			buying_dayy(message)
+			return await buying_dayy(message)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
