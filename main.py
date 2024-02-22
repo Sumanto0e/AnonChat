@@ -7,7 +7,6 @@ from db import DbWorker
 import logging
 import asyncio
 from datetime import datetime, timedelta
-from aiopayok import Payok
 
 from aiogram import Bot
 from aiogram.types import ParseMode
@@ -30,7 +29,6 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 warning_log.addHandler(fh)
 
-pay = Payok(api_id=config.API_ID, api_key=config.API_KEY, secret_key=config.SECRET_KEY, shop=config.SHOP_ID)
 
 
 # Регистрация
