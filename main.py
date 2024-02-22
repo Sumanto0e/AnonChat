@@ -508,9 +508,12 @@ async def buy_day(message):
 async def buyday_acc(message):
 	try:
 		message.text = message.from_user.id
+		kumaha = int(message.text)
 		db.edit_vip_ends(
-								(datetime.strptime(db.get_vip_ends(message.text)[0], '%d.%m.%Y %H:%M') +
-								 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+			(datetime.strptime(db.get_vip_ends(kumaha)[0], '%d.%m.%Y %H:%M') +
+			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+		await bot.send_message(config.ADMINS, "Berhasil dikirim")
+		await bot.send_message(kumaha, "selamat anda telah ditambahkan VIP 1 hari")
 		
 	except Exception as e:
 		warning_log.warning(e)
