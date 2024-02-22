@@ -504,7 +504,7 @@ async def buy_day(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == SetId.waiting.value)
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetId.waiting.value)
 async def buyday_acc(message):
 	try:
 		kumaha = int(message.text)
