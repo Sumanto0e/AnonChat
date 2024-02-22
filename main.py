@@ -257,9 +257,6 @@ async def editing_op_sex(message):
         	warning_log.warning(e)
 
 
-# Профиль
-
-
 @dp.message_handler(commands=['profile'])
 @dp.message_handler(lambda message: message.text == 'Profil 👤')
 async def profile(message):
