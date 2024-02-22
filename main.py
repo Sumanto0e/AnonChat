@@ -499,6 +499,18 @@ async def buy_day(message):
 			await message.answer(f'Send id')
 		else :
 			await message.answer(f'Contact @nazhak')
+			db.set_state(SetName.waiting.value, call.from_user.id)
+	except Exception as e:
+		warning_log.warning(e)
+
+
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
+async def buyday_acc(message):
+	try:
+		message.text = message.from_user.id
+		db.edit_vip_ends(
+								(datetime.strptime(db.get_vip_ends(message.text)[0], '%d.%m.%Y %H:%M') +
+								 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
 		
 	except Exception as e:
 		warning_log.warning(e)
