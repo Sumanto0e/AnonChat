@@ -492,53 +492,22 @@ async def buy_vip(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 Debit per hari - 100')
+@dp.message_handler(lambda message: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
-		c = 0
-		tg_id = message.from_user.id
-		db.edit_order_id(1, tg_id)
-		payment_id = f'{tg_id}-{int(db.get_order_id(tg_id)[0]) + 1}'
-		payments = await pay.create_pay(amount=20, currency='RUB', success_url=config.RETURN_URL, desc=payment_id,
-		                                payment=payment_id)
-		await message.answer(f'<a href="{payments}">Bayar 500 rupiah</a>', parse_mode='HTML')
-		flag1 = False
-		while not flag1:
-			for i in [dict(i) for i in list(await pay.get_transactions())]:
-				if i['payment_id'] == payment_id:
-					if c >= 3600:
-						flag1 = True
-						break
-					if i['transaction_status'] == 1:
-						await message.answer('Успешно')
-						if db.get_vip_ends(tg_id)[0] is None:
-							db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
-						else:
-							db.edit_vip_ends(
-								(datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
-								 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
-						flag1 = True
-						break
-					else:
-						await asyncio.sleep(3)
-						c += 3
-				else:
-					await asyncio.sleep(3)
-					c += 3
+		if str(message.from_user.id) in config.ADMINS:
+			await message.answer(f'Send id')
+		else :
+			await message.answer(f'Contact @nazhak')
+		
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 Вип на неделю - 100₽')
+@dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
 async def buy_week(message):
 	try:
-		c = 0
-		tg_id = message.from_user.id
-		db.edit_order_id(1, tg_id)
-		payment_id = f'{tg_id}-{int(db.get_order_id(tg_id)[0]) + 1}'
-		payments = await pay.create_pay(amount=100, currency='RUB', success_url=config.RETURN_URL, desc=payment_id,
-		                                payment=payment_id)
-		await message.answer(f'<a href="{payments}">Оплатить 100 рублей</a>', parse_mode='HTML')
+		await message.answer(f'<a href="{payments}">Bayar 100 rubel</a>', parse_mode='HTML')
 		flag1 = False
 		while not flag1:
 			for i in [dict(i) for i in list(await pay.get_transactions())]:
@@ -566,7 +535,7 @@ async def buy_week(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 Вип на месяц - 300₽')
+@dp.message_handler(lambda message: message.text == '👑 VIP per bulan')
 async def buy_month(message):
 	try:
 		c = 0
@@ -584,7 +553,7 @@ async def buy_month(message):
 						flag1 = True
 						break
 					if i['transaction_status'] == 1:
-						await message.answer('Успешно')
+						await message.answer('Berhasil')
 						if db.get_vip_ends(tg_id)[0] is None:
 							db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
 						else:
@@ -618,10 +587,10 @@ async def cancel_search(message):
 
 
 @dp.message_handler(commands=['like'])
-@dp.message_handler(lambda message: message.text == '👍 Sukai')
+@dp.message_handler(lambda message: message.text == '👍 Suka')
 async def like(message):
 	try:
-		await message.answer('Спасибо за отзыв!', reply_markup=kb.main_kb)
+		await message.answer('Terima kasih atas tanggapan Anda!', reply_markup=kb.main_kb)
 		db.edit_likes(1, db.get_last_connect(message.from_user.id)[0])
 	except Exception as e:
 		warning_log.warning(e)
@@ -704,7 +673,7 @@ async def search(message):
 
 
 @dp.message_handler(commands=['search_male'])
-@dp.message_handler(lambda message: message.text == 'Menemukan ♂️')
+@dp.message_handler(lambda message: message.text == 'Male ♂️')
 async def search_male(message):
 	try:
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
@@ -775,7 +744,7 @@ async def search_male(message):
 
 
 @dp.message_handler(commands=['search_female'])
-@dp.message_handler(lambda message: message.text == 'Menemukan ♀️')
+@dp.message_handler(lambda message: message.text == 'Female ♀️')
 async def search_female(message):
 	try:
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
@@ -823,9 +792,9 @@ async def search_female(message):
 					sex = 'Неизвестно'
 					user_id = message.from_user.id
 					if db.get_sex(user_id)[0] == 'male':
-						sex = 'Мужской'
+						sex = 'Male'
 					elif db.get_sex(user_id)[0] == 'female':
-						sex = 'Женский'
+						sex = 'Female'
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 					                       f'Нашёл кое-кого для тебя 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
