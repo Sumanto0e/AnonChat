@@ -7,8 +7,8 @@ DB = 'db.db'  # database file name
 
 # These variables are needed only if you use Payok
 RETURN_URL = 't.me/Cintasatumalambot' # Your bot link
-API_ID = 'int'
-API_KEY = 'str'
+API_ID = '20244703'
+API_KEY = 'aecd498f68e85c1c925a6a9f95103aee'
 SHOP_ID = 'int'
 SECRET_KEY = 'str'
 
