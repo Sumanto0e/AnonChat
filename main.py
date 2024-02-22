@@ -437,7 +437,7 @@ async def top(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '🔝 5 teratas oleh referal')
+@dp.message_handler(lambda message: message.text == '🔝 5 teratas berdasarkan referal')
 async def top(message):
 	try:
 		sp = list(db.top_refs())
