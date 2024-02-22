@@ -1,6 +1,6 @@
 import config
 from config import RegState
-from config import SetName, SetAge, SetSex, SetCountry, SetCity
+from config import SetName, SetAge, SetSex, SetCountry, SetCity, SetId
 import keyboards as kb
 from db import DbWorker
 
@@ -507,7 +507,6 @@ async def buy_day(message):
 @dp.message_handler(lambda message: message.text == SetId.waiting.value)
 async def buyday_acc(message):
 	try:
-		message.text = message.from_user.id
 		kumaha = int(message.text)
 		db.edit_vip_ends(
 			(datetime.strptime(db.get_vip_ends(kumaha)[0], '%d.%m.%Y %H:%M') +
