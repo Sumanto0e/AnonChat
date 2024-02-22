@@ -497,9 +497,9 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'Send id')
+			db.set_state(SetName.waiting.value, call.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak')
-			db.set_state(SetName.waiting.value, call.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
 
