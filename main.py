@@ -491,11 +491,11 @@ async def buying_day(message):
 		kumaha = int(message.text)
 		await message.answer('Успешно')
 		if db.get_vip_ends(message.text.id)[0] is None:
-		db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
+			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
 		else:
-		db.edit_vip_ends(
-			(datetime.strptime(db.get_vip_ends(message.text.id)[0], '%d.%m.%Y %H:%M') +
-			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+			db.edit_vip_ends(
+				(datetime.strptime(db.get_vip_ends(message.text.id)[0], '%d.%m.%Y %H:%M') +
+			 	 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
 	
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
