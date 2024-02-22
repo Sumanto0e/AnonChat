@@ -479,20 +479,18 @@ async def buy_day(message):
 
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			db.set_state(SetName.waiting.value, message.from_user.id)
-			
+			buying_dayy(message)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
-async def editing_name(message):
+@dp.message_handler(lambda message: message)
+async def buying_dayy(message):
+
 	try:
-		db.edit_name(message.text, message.from_user.id)
-		await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
-		db.set_state(SetName.nothing.value, message.from_user.id)
+        
 		if db.get_vip_ends(int(message.text))[0] is None:
 			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
                 
