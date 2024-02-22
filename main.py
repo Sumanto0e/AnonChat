@@ -495,10 +495,8 @@ async def buy_vip(message):
 @dp.message_handler(lambda c: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
-		if str(message.from_user.id) in config.ADMINS:
-			await message.answer(f'send id')
-		else :
-			await message.answer(f'Contact @nazhak')
+		await message.answer(f'send id')
+		
 	except Exception as e:
 		warning_log.warning(e)
 
