@@ -246,21 +246,21 @@ async def editing_city(message):
 		warning_log.warning(e)
 
 
-# @dp.message_handler(commands=['edit_op_sex'])
-# @dp.callback_query_handler(lambda call: call.data == 'op_sex')
-# async def edit_op_sex(call):
-#     await bot.answer_callback_query(call.id, 'Введите пол собеседника:')
-#     db.set_state(SetSets.waiting.value, call.from_user.id)
+ @dp.message_handler(commands=['edit_op_sex'])
+ @dp.callback_query_handler(lambda call: call.data == 'op_sex')
+ async def edit_op_sex(call):
+     await bot.answer_callback_query(call.id, 'Введите пол собеседника:')
+     db.set_state(SetSets.waiting.value, call.from_user.id)
 
 
-# @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
-# async def editing_op_sex(message):
-#     try:
-#         db.edit_op_sex(message.text, message.from_user.id)
-#         await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
-#         db.set_state(SetSets.nothing.value, message.from_user.id)
-#     except Exception as e:
-#         warning_log.warning(e)
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
+async def editing_op_sex(message):
+try:
+	db.edit_op_sex(message.text, message.from_user.id)
+        await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+	db.set_state(SetSets.nothing.value, message.from_user.id)
+	except Exception as e:
+        warning_log.warning(e)
 
 
 # Профиль
@@ -497,7 +497,7 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			db.set_state(SetOpSex.waiting.value, call.from_user.id)
+			db.set_state(SetSets.waiting.value, call.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
@@ -509,7 +509,7 @@ async def buying_acc(message):
 	try:
 		db.edit_op_sex(message.text, message.from_user.id)
 		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
-		db.set_state(SetOpsex.nothing.value, message.from_user.id)
+		db.set_state(SetSets.nothing.value, message.from_user.id)
 
 	except Exception as e:
 		warning_log.warning(e)
