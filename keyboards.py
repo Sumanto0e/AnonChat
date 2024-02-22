@@ -67,8 +67,8 @@ sex_kb = InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(
 
 on = KeyboardButton('Aktifkan notifikasi 🔔')
 off = KeyboardButton('Matikan notifikasi 🔕')
-on_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Обменять 💎').add(on).add(to_main)
-off_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Обменять 💎').add(off).add(to_main)
+on_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Tukarkan 💎').add(on).add(to_main)
+off_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Tukarkan 💎').add(off).add(to_main)
 
 top = KeyboardButton('🏆 Peringkat')
 statistic_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(top).add(to_main)
