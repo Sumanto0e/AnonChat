@@ -249,12 +249,12 @@ async def editing_city(message):
 
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
 async def editing_op_sex(message):
-try:
-	db.edit_op_sex(message.text, message.from_user.id)
-        await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
-	db.set_state(SetSets.nothing.value, message.from_user.id)
+	try:
+		db.edit_op_sex(message.text, message.from_user.id)
+       		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+		db.set_state(SetSets.nothing.value, message.from_user.id)
 	except Exception as e:
-        warning_log.warning(e)
+        	warning_log.warning(e)
 
 
 # Профиль
