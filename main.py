@@ -497,14 +497,14 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await vipperhari_handler(message.text)
+			(StName.waiting.value)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.vipperhari_handler(lambda message: message.text)
+@dp.message_handler(lambda message: message.text == StName.waiting.value)
 async def buyday_acc(message):
 	try:
 		message.text = message.from_user.id
