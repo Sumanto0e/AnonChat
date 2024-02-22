@@ -493,8 +493,6 @@ async def editing_op_sex(message):
         	warning_log.warning(e)
 	
 
-
-
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
 async def buy_week(message):
 	try:
