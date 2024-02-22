@@ -337,15 +337,10 @@ async def getcoin(message):
 			await message.answer('Berhasil mendapatkan 100 diamons')
 		else:
 			await message.answer('Anda bukan andmin')
+			
+	except Exception as e:
+		warning_log.warning(e)
 
-@dp.message_handler(commands=['tf_coin'])
-async def tf_coin(message):
-	try:
-		if str(message.from_user.id) in config.ADMINS:
-			db.edit_points(+100, message.from_user.id)
-			await message.answer('Berhasil mendapatkan 100 diamons')
-		else:
-			await message.answer('Anda bukan andmin')
 
 @dp.message_handler(commands=['trade'])
 @dp.message_handler(lambda message: message.text == 'Tukarkan 💎')
