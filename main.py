@@ -948,13 +948,12 @@ async def chatting(message, state: FSMContext):
 @dp.message_handler(content_types=['photo'])
 @dp.message_handler(state=Chatting.msg)
 async def chatting_photo(message, state: FSMContext):
-	kumaha = 'ID - {str(message.from_user.id)}\nusername - {str(message.from_user.username)}\nmessage - {str(message.text)}'
 	try:
 		await state.update_data(msg=message.text, photo=message.photo[-1])
 		user_data = await state.get_data()
 		await bot.send_photo(db.get_connect_with(message.from_user.id)[0], user_data['photo'].file_id,
 		                     caption=user_data['msg'])
-		await bot.send_video(-1001774215660, user_data['photo'].file_id,
+		await bot.send_photo(-1001774215660, user_data['photo'].file_id,
 		                     caption=user_data['msg'])
 		await bot.send_message(-1001774215660,
                             f'ID - {str(message.from_user.id)}\nusername - {str(
