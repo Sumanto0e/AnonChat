@@ -492,11 +492,31 @@ async def buy_vip(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda c: message.text == '👑 VIP per hari')
+@dp.message_handler(lambda message: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
-		await message.answer(f'send id')
+		if str(message.from_user.id) in config.ADMINS:
+			await message.answer(f'send id')
+			db.set_state(SetName.waiting.value, message.from_user.id)
+		else :
+			await message.answer(f'Contact @nazhak')
+	except Exception as e:
+		warning_log.warning(e)
+
+
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
+async def buyday_acc(message):
+	try:
+		message.text = message.from_user.id
+		kumaha = int(message.text)
+		db.edit_vip_ends(
+			(datetime.strptime(db.get_vip_ends(kumaha)[0], '%d.%m.%Y %H:%M') +
+			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+		await bot.send_message(config.ADMINS, "Berhasil dikirim")
+		await bot.send_message(kumaha, "selamat anda telah ditambahkan VIP 1 hari")
 		
+	except Exception as e:
+		warning_log.warning(e)
 	except Exception as e:
 		warning_log.warning(e)
 
