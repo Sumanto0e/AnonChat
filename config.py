@@ -1,7 +1,7 @@
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from enum import Enum
 
-TOKEN = '7150001079:AAHjGcUHSaM65zd-7PUWGw7pkTw3hJDTJGY'  # token from BotFather
+TOKEN = '7150001079:AAG9Y3c3LBMa52t4koPv2XYjEVU32tivOtc'  # token from BotFather
 ADMINS = ['5458705482']  # telegram identifiers (id) of admins (not necessary).
 DB = 'db.db'  # database file name
 
