@@ -20,7 +20,11 @@ class RegState(StatesGroup):
 	country = State()
 	city = State()
 	op_sex = State()
+	id = State()
 
+class SetId(Enum):
+	nothing = 'nothing_name'
+	waiting = 'waiting_name'
 
 class SetName(Enum):
 	nothing = 'nothing_name'
