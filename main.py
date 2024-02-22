@@ -247,16 +247,6 @@ async def editing_city(message):
 
 
 
-@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
-async def editing_op_sex(message):
-	try:
-		db.edit_op_sex(message.text, message.from_user.id)
-       		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!", reply_markup=kb.main_kb)
-		db.set_state(SetSets.nothing.value, message.from_user.id)
-	except Exception as e:
-        	warning_log.warning(e)
-
-
 @dp.message_handler(commands=['profile'])
 @dp.message_handler(lambda message: message.text == 'Profil 👤')
 async def profile(message):
@@ -495,15 +485,14 @@ async def buy_day(message):
 		warning_log.warning(e)
 
 
-dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
-async def buying_acc(message):
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
+async def editing_op_sex(message):
 	try:
 		db.edit_op_sex(message.text, message.from_user.id)
-		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+       		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!", reply_markup=kb.main_kb)
 		db.set_state(SetSets.nothing.value, message.from_user.id)
-
 	except Exception as e:
-		warning_log.warning(e)
+        	warning_log.warning(e)
 	
 
 
