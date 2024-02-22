@@ -251,7 +251,7 @@ async def editing_city(message):
 async def editing_op_sex(message):
 	try:
 		db.edit_op_sex(message.text, message.from_user.id)
-       		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+       		await bot.send_message(message.from_user.id, "Пол собеседника сохранен!", reply_markup=kb.main_kb)
 		db.set_state(SetSets.nothing.value, message.from_user.id)
 	except Exception as e:
         	warning_log.warning(e)
