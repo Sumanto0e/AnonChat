@@ -2,7 +2,7 @@ from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButt
     InlineKeyboardMarkup, InlineKeyboardButton
 
 
-to_main = KeyboardButton('🔙 🔙 Ke utama')
+to_main = KeyboardButton('🔙 Ke utama')
 
 cancel_search_kb = ReplyKeyboardMarkup(
     resize_keyboard=True).add('🚫 Batalkan pencarian')
@@ -51,8 +51,8 @@ ref = KeyboardButton('💼 Rujukan')
 profile_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(change_profile).add(
     statistic).add(ref).add(to_main)
 
-vip_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('🆓 Получить вип бесплатно').add(
-    '💰 Купить/Продлить вип').add(to_main)
+vip_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('🆓 Dapatkan VIP secara gratis').add(
+    '💰 Beli/Perpanjang VIP').add(to_main)
 
 day = KeyboardButton('👑 VIP per hari')
 week = KeyboardButton('👑 VIP per seminggu')
