@@ -496,7 +496,7 @@ async def buy_vip(message):
 async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
-			await message.answer(f'Send id')
+			await bot.answer_callback_query(call.id, 'Masukkan nama Anda:')
 			db.set_state(SetName.waiting.value, call.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak')
