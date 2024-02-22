@@ -478,17 +478,17 @@ async def buy_day(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			db.set_state(SetAge.waiting.value, call.from_user.id)
+			db.set_state(SetCity.waiting.value, call.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetAge.waiting.value)
-async def editing_op_sex(message):
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetCity.waiting.value)
+async def buying_day(message):
 	try:
-		await bot.send_message(message.from_user.id, "Kota ini telah diselamatkan!", reply_markup=kb.main_kb)
+		await bot.send_message(message.from_user.id, "Kumahasia!", reply_markup=kb.main_kb)
 	except Exception as e:
         	warning_log.warning(e)
 	
