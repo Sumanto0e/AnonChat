@@ -508,8 +508,8 @@ dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetO
 async def buyday_acc(message):
 	try:
 		kumaha = int(message.text)
-		await bot.send_message(config.ADMINS, "Berhasil dikirim")
-		await bot.send_message(kumaha, "selamat anda telah ditambahkan VIP 1 hari")
+		await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+		await bot.send_message(kumaha.id, "selamat anda telah ditambahkan VIP 1 hari")
 		db.edit_vip_ends(
 			(datetime.strptime(db.get_vip_ends(kumaha.id)[0], '%d.%m.%Y %H:%M') +
 			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
