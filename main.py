@@ -129,7 +129,7 @@ async def set_city(message, state: FSMContext):
 	db.new_user(data['name'], data['age'], data['sex'], data['country'], data['city'], message.from_user.id)
 	await state.finish()
 	if db.get_vip_ends(message.from_user.id)[0] is None:
-		db.edit_vip_ends((datetime.now() + timedelta(days=30)).strftime('%d.%m.%Y %H:%M'),
+		db.edit_vip_ends((datetime.now() + timedelta(days=7)).strftime('%d.%m.%Y %H:%M'),
 		                 message.from_user.id)
 
 
@@ -559,19 +559,6 @@ async def buy_mounth(message):
 	except Exception as e:
 		warning_log.warning(e)
   
-
-async def buying_mounth(message):
-
-	try:
-		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil ditambahkan 31 hari')
-		if db.get_vip_ends(int(message.text))[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-           
-		else:
-			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
 
 	except Exception as e:
 		warning_log.warning(e)
