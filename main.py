@@ -500,7 +500,7 @@ async def buying_dayy(message):
 				 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
 
 	except Exception as e:
-		warning_log.warning(e
+		warning_log.warning(e)
 	
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
