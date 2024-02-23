@@ -473,13 +473,13 @@ async def buy_vip(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per hari')
+@dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
 async def buy_day(message):
 	try:
-
+        
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_dayy(message)
+			return await buying_dayy_minggu(message)
 		else :
 			await message.answer(f'Contact @nazhak')
 	except Exception as e:
@@ -487,86 +487,52 @@ async def buy_day(message):
 
 
 @dp.message_handler(lambda message: message)
-async def buying_dayy(message):
+async def buying_dayy_minggu(message):
 
 	try:
-        
+         
+		await bot.send_message(config.ADMINS, "Berhasil ditambahkan 1 hari!", reply_markup=kb.main_kb)
+		await bot.send_message(int(message.text), "Berhasil ditambahkan 1 hari!", reply_markup=kb.main_kb) 
 		if db.get_vip_ends(int(message.text))[0] is None:
 			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
                 
 		else:
 			db.edit_vip_ends(
 				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.text)
+				 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
 
 	except Exception as e:
 		warning_log.warning(e)
 	
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
-async def buy_week(message):
+@dp.message_handler(lambda message: message.text == '👑 VIP per bulan')
+async def buy_day(message):
 	try:
-		await message.answer(f'<a href="{payments}">Bayar 100 rubel</a>', parse_mode='HTML')
-		flag1 = False
-		while not flag1:
-			for i in [dict(i) for i in list(await pay.get_transactions())]:
-				if i['payment_id'] == payment_id:
-					if c >= 3600:
-						flag1 = True
-						break
-					if i['transaction_status'] == 1:
-						await message.answer('Успешно')
-						if db.get_vip_ends(tg_id)[0] is None:
-							db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
-						else:
-							db.edit_vip_ends(
-								(datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
-								 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
-						flag1 = True
-						break
-					else:
-						await asyncio.sleep(3)
-						c += 3
-				else:
-					await asyncio.sleep(3)
-					c += 3
+        
+		if str(message.from_user.id) in config.ADMINS:
+			await message.answer(f'send id')
+			return await buying_dayy_tigapuluh(message)
+		else :
+			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per bulan')
-async def buy_month(message):
+@dp.message_handler(lambda message: message)
+async def buying_dayy_tigapuluh(message):
+
 	try:
-		c = 0
-		tg_id = message.from_user.id
-		db.edit_order_id(1, tg_id)
-		payment_id = f'{tg_id}-{int(db.get_order_id(tg_id)[0]) + 1}'
-		payments = await pay.create_pay(amount=300, currency='RUB', success_url=config.RETURN_URL, desc=payment_id,
-		                                payment=payment_id)
-		await message.answer(f'<a href="{payments}">Оплатить 300 рублей</a>', parse_mode='HTML')
-		flag1 = False
-		while not flag1:
-			for i in [dict(i) for i in list(await pay.get_transactions())]:
-				if i['payment_id'] == payment_id:
-					if c >= 3600:
-						flag1 = True
-						break
-					if i['transaction_status'] == 1:
-						await message.answer('Berhasil')
-						if db.get_vip_ends(tg_id)[0] is None:
-							db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
-						else:
-							db.edit_vip_ends(
-								(datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
-								 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
-						flag1 = True
-						break
-					else:
-						await asyncio.sleep(3)
-						c += 3
-				else:
-					await asyncio.sleep(3)
-					c += 3
+         
+		await bot.send_message(config.ADMINS, "Berhasil ditambahkan 30 hari!", reply_markup=kb.main_kb)
+		await bot.send_message(int(message.text), "Berhasil ditambahkan 30 hari!", reply_markup=kb.main_kb) 
+		if db.get_vip_ends(int(message.text))[0] is None:
+			db.edit_vip_ends((datetime.now() + timedelta(days=30)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+                
+		else:
+			db.edit_vip_ends(
+				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+				 timedelta(days=30)).strftime('%d.%m.%Y %H:%M'), message.text)
+
 	except Exception as e:
 		warning_log.warning(e)
 
