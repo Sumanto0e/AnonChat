@@ -752,7 +752,7 @@ async def search_male(message):
 
 
 @dp.message_handler(commands=['search_place'])
-@dp.message_handler(lambda message: message.text == '📍 Looking place')
+@dp.message_handler(lambda message: message.text == 'Looking place 📍')
 async def search_female(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
