@@ -35,6 +35,7 @@ pay = Payok(api_id=config.API_ID, api_key=config.API_KEY, secret_key=config.SECR
 
 # Регистрация
 
+
 @dp.message_handler(lambda message: message.text == '🔙 Ke utama')
 @dp.message_handler(commands=['start'])
 async def start(message):
@@ -594,8 +595,20 @@ class Chatting(StatesGroup):
 
 @dp.message_handler(commands=['search'])
 @dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
-async def search(message):
+async def force(message):
 	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
+		if check_member.status not in ["member", "creator", "admin"]:
+			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
+		else:
+			return await search(message)
+	except Exception as e:
+		warning_log.warning(e)
+
+
+async def search(message):    
+	try:
+  		
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
 		await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 		while True:
@@ -656,6 +669,15 @@ async def search(message):
 
 @dp.message_handler(commands=['search_male'])
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
+async def force(message):
+	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
+		if check_member.status not in ["member", "creator", "admin"]:
+			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
+		else:
+			return await search_male(message)
+	except Exception as e:
+		warning_log.warning(e)
 async def search_male(message):
 	try:
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
@@ -727,6 +749,15 @@ async def search_male(message):
 
 @dp.message_handler(commands=['search_female'])
 @dp.message_handler(lambda message: message.text == 'Female ♀️')
+async def force(message):
+	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
+		if check_member.status not in ["member", "creator", "admin"]:
+			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
+		else:
+			return await search_female(message)
+	except Exception as e:
+		warning_log.warning(e)
 async def search_female(message):
 	try:
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
