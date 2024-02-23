@@ -485,7 +485,7 @@ async def buy_day(message):
 		warning_log.warning(e)
 
 
-async def buying_dayy(message):
+async def buying_dayy(message: type.message):
 
 	try:
 		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
