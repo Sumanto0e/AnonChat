@@ -96,7 +96,7 @@ async def set_sex(message, state: FSMContext):
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	elif message.text == 'F' or message.text == 'F':
-		await state.update_data(sex='Female')
+		await state.update_data(sex='female')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	else:
@@ -215,21 +215,21 @@ async def edit_sex(call):
 	db.set_state(SetSex.waiting.value, call.from_user.id)
 
 
-@dp.callback_query_handler(lambda call: call.data == 'male' or call.data == 'Female')
+@dp.callback_query_handler(lambda call: call.data == 'male' or call.data == 'female')
 async def editing_sex(call):
 	try:
-		if call.data == 'Male':
-			db.edit_sex('Male', call.from_user.id)
+		if call.data == 'male':
+			db.edit_sex('male', call.from_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
-		elif call.data == 'Female':
-			db.edit_sex('Female', call.from_user.id)
+		elif call.data == 'female':
+			db.edit_sex('female', call.from_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
 		else:
-			await call.reply("Anda memasukkan nilai yang salah, ketik 'Male' atau 'Female' silakan masukkan kembali")
+			await call.reply("Anda memasukkan nilai yang salah, ketik 'male' atau 'female' silakan masukkan kembali")
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -300,10 +300,10 @@ async def profile(message):
 	try:
 		sex = 'Tidak dikenal'
 		user_id = message.from_user.id
-		if db.get_sex(user_id)[0] == 'Male':
-			sex = 'Male'
-		elif db.get_sex(user_id)[0] == 'Female':
-			sex = 'Female'
+		if db.get_sex(user_id)[0] == 'male':
+			sex = 'male'
+		elif db.get_sex(user_id)[0] == 'female':
+			sex = 'female'
 		await message.answer(
 			f'🅰️ Nama: {db.get_name(user_id)[0]}\n\n'
 			f'🔞 Usia: {db.get_age(user_id)[0]}\n\n'
@@ -637,10 +637,10 @@ async def search(message):
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			sex = 'Tidak dikenal'
 			user_id = db.get_connect_with(message.from_user.id)[0]
-			if db.get_sex(user_id)[0] == 'Male':
-				sex = 'Male'
-			elif db.get_sex(user_id)[0] == 'Female':
-				sex = 'Female'
+			if db.get_sex(user_id)[0] == 'male':
+				sex = 'fale'
+			elif db.get_sex(user_id)[0] == 'female':
+				sex = 'female'
 			await bot.send_message(message.from_user.id,
 			                       f'Menemukan seseorang untukmu 💕\n'
 			                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -656,10 +656,10 @@ async def search(message):
 			db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0], '%d.%m.%Y %H:%M') > datetime.now():
 			sex = 'Tidak dikenal'
 			user_id = message.from_user.id
-			if db.get_sex(user_id)[0] == 'Male':
-				sex = 'Male'
-			elif db.get_sex(user_id)[0] == 'Female':
-				sex = 'Female'
+			if db.get_sex(user_id)[0] == 'male':
+				sex = 'male'
+			elif db.get_sex(user_id)[0] == 'female':
+				sex = 'female'
 			await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 			                       f'Menemukan seseorang untukmu 💕\n'
 			                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -708,10 +708,10 @@ async def search_male(message):
 					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
 					user_id = db.get_connect_with(message.from_user.id)[0]
-					if db.get_sex(user_id)[0] == 'Male':
-						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'Female':
-						sex = 'Female'
+					if db.get_sex(user_id)[0] == 'male':
+						sex = 'male'
+					elif db.get_sex(user_id)[0] == 'female':
+						sex = 'female'
 					await bot.send_message(message.from_user.id,
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -728,10 +728,10 @@ async def search_male(message):
 					'%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
 					user_id = message.from_user.id
-					if db.get_sex(user_id)[0] == 'Male':
-						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'Female':
-						sex = 'Female'
+					if db.get_sex(user_id)[0] == 'male':
+						sex = 'male'
+					elif db.get_sex(user_id)[0] == 'female':
+						sex = 'female'
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -758,9 +758,10 @@ async def search_female(message):
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
 			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
+		user_id = message.from_user.id
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')
+			db.add_to_queue_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0])
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
@@ -785,10 +786,10 @@ async def search_female(message):
 					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
 					user_id = db.get_connect_with(message.from_user.id)[0]
-					if db.get_sex(user_id)[0] == 'Male':
-						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'Female':
-						sex = 'Female'
+					if db.get_sex(user_id)[0] == 'male':
+						sex = 'male'
+					elif db.get_sex(user_id)[0] == 'female':
+						sex = 'female'
 					await bot.send_message(message.from_user.id,
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -805,10 +806,10 @@ async def search_female(message):
 					'%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
 					user_id = message.from_user.id
-					if db.get_sex(user_id)[0] == 'Male':
-						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'Female':
-						sex = 'Female'
+					if db.get_sex(user_id)[0] == 'male':
+						sex = 'male'
+					elif db.get_sex(user_id)[0] == 'female':
+						sex = 'female'
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -836,17 +837,17 @@ async def search_female(message):
 			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')
+			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 			while True:
 				await asyncio.sleep(0.5)
-				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')[0] is not None:
+				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')[0] is not None:
 					db.update_connect_with(
-						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')[0],
+						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')[0],
 						message.from_user.id)
 					db.update_connect_with(
 						message.from_user.id, db.search_vip(message.from_user.id,
-						                                    db.get_sex(message.from_user.id)[0], 'Female')[0])
+						                                    db.get_sex(message.from_user.id)[0], 'female')[0])
 					break
 			while True:
 				await asyncio.sleep(0.5)
@@ -858,10 +859,10 @@ async def search_female(message):
 					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
 					user_id = db.get_connect_with(message.from_user.id)[0]
-					if db.get_sex(user_id)[0] == 'Male':
-						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'Female':
-						sex = 'Female'
+					if db.get_sex(user_id)[0] == 'male':
+						sex = 'male'
+					elif db.get_sex(user_id)[0] == 'female':
+						sex = 'female'
 					await bot.send_message(message.from_user.id,
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -878,10 +879,10 @@ async def search_female(message):
 					'%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
 					user_id = message.from_user.id
-					if db.get_sex(user_id)[0] == 'Male':
-						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'Female':
-						sex = 'Female'
+					if db.get_sex(user_id)[0] == 'male':
+						sex = 'male'
+					elif db.get_sex(user_id)[0] == 'female':
+						sex = 'female'
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
