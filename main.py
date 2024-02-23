@@ -489,10 +489,7 @@ async def buy_day(message):
 @dp.message_handler(lambda message: message)
 async def buying_dayy(message):
 
-	try:
-         
-		await bot.send_message(config.ADMINS, "Berhasil ditambahkan!", reply_markup=kb.main_kb)
-		await bot.send_message(int(message.text), "berhasil di tambahkan!", reply_markup=kb.main_kb) 
+	try: 
 		if db.get_vip_ends(int(message.text))[0] is None:
 			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
                 
