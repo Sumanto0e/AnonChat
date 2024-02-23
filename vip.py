@@ -30,7 +30,7 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 warning_log.addHandler(fh)
 
-@dp.message_handler(lambda message: message)
+
 async def buying_dayy(message):
 
 	try:
@@ -48,7 +48,7 @@ async def buying_dayy(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message)
+
 async def buying_week(message):
 
 	try:
@@ -66,7 +66,7 @@ async def buying_week(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message)
+
 async def buying_mounth(message):
 
 	try:
