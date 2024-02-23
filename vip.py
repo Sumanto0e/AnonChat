@@ -473,7 +473,7 @@ async def buy_vip(message):
 	except Exception as e:
 		warning_log.warning(e)
 
-
+@dp.message_handler(lambda message: message)
 @dp.message_handler(lambda message: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
@@ -485,7 +485,6 @@ async def buy_day(message):
 			await message.answer(f'Contact @nazhak\nPrice 1k COIN ONS')
 	except Exception as e:
 		warning_log.warning(e)
-  
 	
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
@@ -500,6 +499,7 @@ async def buy_week(message):
 	except Exception as e:
 		warning_log.warning(e)
 
+@dp.message_handler(lambda message: message)
 async def buying_week(message):
 
 	try:
@@ -529,6 +529,7 @@ async def buy_mounth(message):
 	except Exception as e:
 		warning_log.warning(e)
   
+@dp.message_handler(lambda message: message)
 async def buying_mounth(message):
 
 	try:
@@ -544,9 +545,7 @@ async def buying_mounth(message):
 
 	except Exception as e:
 		warning_log.warning(e)
-  
 # Поиск
-
 
 @dp.message_handler(commands=['cancel_search'])
 @dp.message_handler(lambda message: message.text == '🚫 Batalkan pencarian')
