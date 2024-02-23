@@ -245,20 +245,15 @@ async def edit_country(call):
 async def editing_country(message):
 	try:
 		if message.from_user.id in config.ADMINS:
-			if message.text == int(message.text):
-				await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
-				await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 31 hari')
-				if db.get_vip_ends(int(message.text))[0] is None:
-					db.edit_vip_ends((datetime.now() + timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
+			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 31 hari')
+			if db.get_vip_ends(int(message.text))[0] is None:
+				db.edit_vip_ends((datetime.now() + timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), int(message.text))
            
-				else:
-					db.edit_vip_ends(
-						(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 	 	 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
 			else:
-				db.edit_age(message.text, message.from_user.id)
-				await bot.send_message(message.from_user.id, "Negara disimpan!", reply_markup=kb.main_kb)
-				db.set_state(SetCountry.nothing.value, message.from_user.id)
+				db.edit_vip_ends(
+					(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+			 	 	 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
 		else:
 			db.edit_country(message.text, message.from_user.id)
 			await bot.send_message(message.from_user.id, "Negara disimpan!", reply_markup=kb.main_kb)
