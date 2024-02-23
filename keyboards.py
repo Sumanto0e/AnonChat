@@ -41,7 +41,7 @@ age = InlineKeyboardButton('🔞 Usia', callback_data='age')
 sex = InlineKeyboardButton('👫 Jenis kelamin', callback_data='sex')
 country = InlineKeyboardButton('🌍 Negara', callback_data='country')
 city = InlineKeyboardButton('🏙️ Kota', callback_data='city')
-# op_sex = InlineKeyboardButton('🚺 Пол собеседника 🚹', callback_data='op_sex')
+op_sex = InlineKeyboardButton('📍 Looking place', callback_data='op_sex')
 settings_kb = InlineKeyboardMarkup(
     resize_keyboard=True).add(name).add(age).add(sex).add(country).add(city)
 
