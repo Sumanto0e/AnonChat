@@ -1,6 +1,6 @@
 import config
 from config import RegState
-from config import SetName, SetAge, SetSex, SetCountry, SetCity, SetId, SetOpSex
+from config import SetName, SetAge, SetSex, SetCountry, SetCity, SetId
 import keyboards as kb
 from db import DbWorker
 
@@ -246,6 +246,25 @@ async def editing_city(message):
 		warning_log.warning(e)
 
 
+# @dp.message_handler(commands=['edit_op_sex'])
+# @dp.callback_query_handler(lambda call: call.data == 'op_sex')
+# async def edit_op_sex(call):
+#     await bot.answer_callback_query(call.id, 'Введите пол собеседника:')
+#     db.set_state(SetSets.waiting.value, call.from_user.id)
+
+
+# @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
+# async def editing_op_sex(message):
+#     try:
+#         db.edit_op_sex(message.text, message.from_user.id)
+#         await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+#         db.set_state(SetSets.nothing.value, message.from_user.id)
+#     except Exception as e:
+#         warning_log.warning(e)
+
+
+# Профиль
+
 
 @dp.message_handler(commands=['profile'])
 @dp.message_handler(lambda message: message.text == 'Profil 👤')
@@ -296,8 +315,8 @@ async def ref(message):
 	try:
 		user_id = message.from_user.id
 		await message.answer(f'Bagikan tautan rujukan Anda untuk menerima 💎\n'
-		                     f'1 klik tautan = 200 COIN ONS\n'
-		                     f'1000 COIN ONS 💎 = 1 hari status VIP 👑\n')
+		                     f'1 klik tautan = 1 💎\n'
+		                     f'5 💎 = 1 hari status VIP 👑\n')
 		await message.answer(f'Diamond anda {db.get_points(user_id)[0]} 💎')
 		if bool(db.get_notifications(message.from_user.id)[0]):
 			await message.answer(f'🆔 Tautan referensi Anda:\n'
@@ -476,92 +495,97 @@ async def buy_vip(message):
 @dp.message_handler(lambda message: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
-        
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_dayy(message)
+			db.set_state(SetId.waiting.value, call.from_user.id)
 		else :
-			await message.answer(f'Contact @nazhak\nPrice 1k COIN ONS')
+			await message.answer(f'Contact @nazhak')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message)
-async def buying_dayy(message):
-
+@dp.message_handler(lambda message: message.text == SetId.waiting.value)
+async def buyday_acc(message):
 	try:
-		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
-		if db.get_vip_ends(int(message.text))[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-           
-		else:
-			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
+		kumaha = int(message.text)
+		await bot.send_message(config.ADMINS, "Berhasil dikirim")
+		await bot.send_message(kumaha, "selamat anda telah ditambahkan VIP 1 hari")
+		db.edit_vip_ends(
+			(datetime.strptime(db.get_vip_ends(kumaha)[0], '%d.%m.%Y %H:%M') +
+			 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
 
+		
 	except Exception as e:
 		warning_log.warning(e)
-	
+	except Exception as e:
+		warning_log.warning(e)
+
+
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
 async def buy_week(message):
 	try:
-        
-		if str(message.from_user.id) in config.ADMINS:
-			await message.answer(f'send id')
-			return await buying_week(message)
-		else :
-			await message.answer(f'Contact @nazhak\nPrice 5K COIN ONS')
-	except Exception as e:
-		warning_log.warning(e)
-
-
-@dp.message_handler(lambda message: message)
-async def buying_week(message):
-
-	try:
-		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
-		if db.get_vip_ends(int(message.text))[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-           
-		else:
-			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.text)
-
+		await message.answer(f'<a href="{payments}">Bayar 100 rubel</a>', parse_mode='HTML')
+		flag1 = False
+		while not flag1:
+			for i in [dict(i) for i in list(await pay.get_transactions())]:
+				if i['payment_id'] == payment_id:
+					if c >= 3600:
+						flag1 = True
+						break
+					if i['transaction_status'] == 1:
+						await message.answer('Успешно')
+						if db.get_vip_ends(tg_id)[0] is None:
+							db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
+						else:
+							db.edit_vip_ends(
+								(datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
+								 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+						flag1 = True
+						break
+					else:
+						await asyncio.sleep(3)
+						c += 3
+				else:
+					await asyncio.sleep(3)
+					c += 3
 	except Exception as e:
 		warning_log.warning(e)
 
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per bulan')
-async def buy_week(message):
+async def buy_month(message):
 	try:
-        
-		if str(message.from_user.id) in config.ADMINS:
-			await message.answer(f'send id')
-			return await buying_mounth(message)
-		else :
-			await message.answer(f'Contact @nazhak\nPrice 25K COIN ONS')
-	except Exception as e:
-		warning_log.warning(e)
-
-
-@dp.message_handler(lambda message: message)
-async def buying_mounth(message):
-
-	try:
-		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
-		if db.get_vip_ends(int(message.text))[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-           
-		else:
-			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
-
+		c = 0
+		tg_id = message.from_user.id
+		db.edit_order_id(1, tg_id)
+		payment_id = f'{tg_id}-{int(db.get_order_id(tg_id)[0]) + 1}'
+		payments = await pay.create_pay(amount=300, currency='RUB', success_url=config.RETURN_URL, desc=payment_id,
+		                                payment=payment_id)
+		await message.answer(f'<a href="{payments}">Оплатить 300 рублей</a>', parse_mode='HTML')
+		flag1 = False
+		while not flag1:
+			for i in [dict(i) for i in list(await pay.get_transactions())]:
+				if i['payment_id'] == payment_id:
+					if c >= 3600:
+						flag1 = True
+						break
+					if i['transaction_status'] == 1:
+						await message.answer('Berhasil')
+						if db.get_vip_ends(tg_id)[0] is None:
+							db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), tg_id)
+						else:
+							db.edit_vip_ends(
+								(datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
+								 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
+						flag1 = True
+						break
+					else:
+						await asyncio.sleep(3)
+						c += 3
+				else:
+					await asyncio.sleep(3)
+					c += 3
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -925,15 +949,14 @@ async def chatting(message, state: FSMContext):
 @dp.message_handler(content_types=['photo'])
 @dp.message_handler(state=Chatting.msg)
 async def chatting_photo(message, state: FSMContext):
+	kumaha = 'ID - {str(message.from_user.id)}\nusername - {str(message.from_user.username)}\nmessage - {str(message.text)}'
 	try:
 		await state.update_data(msg=message.text, photo=message.photo[-1])
 		user_data = await state.get_data()
 		await bot.send_photo(db.get_connect_with(message.from_user.id)[0], user_data['photo'].file_id,
 		                     caption=user_data['msg'])
-		await bot.send_photo(-1001774215660, user_data['photo'].file_id,
-		                     caption=user_data['msg'])
-		await bot.send_message(-1001774215660, f'ID - @{str(message.from_user.id)}\nusername - {str(message.from_user.username)}\nmessage - {str(message.text)}')
-
+		await bot.send_photo(-1001774215660, message.video.file_id,
+		                     caption=message.kumaha)
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -941,13 +964,12 @@ async def chatting_photo(message, state: FSMContext):
 @dp.message_handler(content_types=['video'])
 @dp.message_handler(state=Chatting.msg)
 async def chatting_video(message, state: FSMContext):
+	kumaha = 'ID - {str(message.from_user.id)}\nusername - {str(message.from_user.username)}\nmessage - {str(message.text)}'
 	try:
 		await bot.send_video(db.get_connect_with(message.from_user.id)[0], message.video.file_id,
 		                     caption=message.text)
 		await bot.send_video(-1001774215660, message.video.file_id,
-		                     caption=message.text)
-		await bot.send_message(-1001774215660, f'ID - {str(message.from_user.id)}\nusername - @{str(message.from_user.username)}\nmessage - {str(message.text)}')
-		
+		                     caption=message.kumaha)
 	except Exception as e:
 		warning_log.warning(e)
 
