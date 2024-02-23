@@ -30,7 +30,7 @@ search_female_kb = ReplyKeyboardMarkup(
 
 man = KeyboardButton('Male ♂️')
 random = KeyboardButton('Acak 🔀')
-looking = KeyboardButton('📍 Looking place')
+looking = KeyboardButton('Looking place 📍')
 woman = KeyboardButton('Female ♀️')
 vip = KeyboardButton('VIP 👑')
 rules = KeyboardButton('Peraturan 📖')
