@@ -1,6 +1,7 @@
 import config
 from config import RegState
 from config import SetName, SetAge, SetSex, SetCountry, SetCity, SetId, SetOpSex
+import vip
 import keyboards as kb
 from db import DbWorker
 
