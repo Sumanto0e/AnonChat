@@ -484,7 +484,6 @@ async def buy_day(message):
 	except Exception as e:
 		warning_log.warning(e)
 
-@dp.message_handler(lambda message: message)
 async def buying_dayy(message):
 
 	try:
@@ -508,13 +507,12 @@ async def buy_week(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await vip.buying_week(message)
+			return await buying_week(message)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 5K COIN ONS')
 	except Exception as e:
 		warning_log.warning(e)
 
-@dp.message_handler(lambda message: message)
 async def buying_week(message):
 
 	try:
@@ -538,13 +536,12 @@ async def buy_mounth(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await vip.buying_mounth(message)
+			return await buying_mounth(message)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 25K COIN ONS')
 	except Exception as e:
 		warning_log.warning(e)
   
-@dp.message_handler(lambda message: message)
 async def buying_mounth(message):
 
 	try:
