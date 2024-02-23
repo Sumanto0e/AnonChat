@@ -18,6 +18,19 @@ from aiogram.dispatcher import FSMContext, Dispatcher
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
+db = DbWorker(config.DB)
+
+bot = Bot(token=config.TOKEN)
+dp = Dispatcher(bot, storage=MemoryStorage())
+
+logging.basicConfig(filename="all_log.log", level=logging.INFO, format='%(asctime)s - %(levelname)s -%(message)s')
+warning_log = logging.getLogger("warning_log")
+warning_log.setLevel(logging.WARNING)
+fh = logging.FileHandler("warning_log.log")
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+warning_log.addHandler(fh)
+
 @dp.message_handler(lambda message: message)
 async def buying_dayy(message):
 
