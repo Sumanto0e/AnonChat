@@ -19,7 +19,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 db = DbWorker(config.DB)
 CHANNELS = -1001771712186
-GRUB = ('@onsbase')
+GRUB = ['@onsbase']
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
