@@ -309,8 +309,8 @@ async def profile(message):
 			f'🔞 Usia: {db.get_age(user_id)[0]}\n\n'
 			f'👫 Jenis kelamin: {sex}\n\n'
 			f'🌍 Negara: {db.get_country(user_id)[0]}\n\n'
-			f'🏙️ Kota: {db.get_city(user_id)[0]}'
-			f'📍 Looking place: {db.get_city(user_id)[0]}',
+			f'🏙️ Kota: {db.get_city(user_id)[0]}\n\n'
+			f'📍 Looking place: {db.get_op_sex(user_id)[0]}',
    
 			reply_markup=kb.profile_kb)
 	except Exception as e:
