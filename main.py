@@ -598,11 +598,8 @@ class Chatting(StatesGroup):
 @dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
 async def search(message):
 	try:
-		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
-		if check_member.status not in ["member", "admin"]:
-			await message.answer("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
-		else:
-			return await search_continue(message)
+		await message.answer(f'send id')
+		return await search_continue(message)
 	except Exception as e:
 		warning_log.warning("ga bisa")
 
@@ -753,7 +750,7 @@ async def search_male_continue(message):
 async def search_female(message):
 	try:
 		check_member = await bot.get_chat_member(GRUB, message.from_user.id) 
-		if check_member.status not in ["member", "creator", "admin"]:
+		if check_member.status not in ["member", "admin"]:
 			await message.answer("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
 			return await search_female_continue(message)
