@@ -726,7 +726,7 @@ async def search_male(message):
 				if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
 					db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0],
 					'%d.%m.%Y %H:%M') > datetime.now():
-					sex = 'Неизвестно'
+					sex = 'Tidak dikenal'
 					user_id = message.from_user.id
 					if db.get_sex(user_id)[0] == 'Male':
 						sex = 'Male'
@@ -765,7 +765,7 @@ async def search_female(message):
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)
-				if db.get(user_id)[0] == ["none"]:
+				if db.get_op_sex(user_id)[0] == 'None':
 					return await message.answer("set Looking place terlebih dahulu di sunting profil")
 				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0] is not None:
 					db.update_connect_with(
