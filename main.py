@@ -598,10 +598,17 @@ class Chatting(StatesGroup):
 @dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
 async def search(message):
 	try:
-		await message.answer(f'send id')
-		return await search_continue(message)
+		if str(message.from_user.id) in config.ADMINS:
+			await message.answer(f'send id')
+			return await search_continue(message)
+		else :
+			await message.answer(f'Contact @nazhak\nPrice 1k COIN ONS')
+			return await search_continue(message)
 	except Exception as e:
-		warning_log.warning("ga bisa")
+		warning_log.warning(e)
+
+
+
 
 
 async def search_continue(message):    
