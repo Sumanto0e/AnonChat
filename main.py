@@ -602,7 +602,7 @@ async def search(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
-			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>")
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
 		await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 		while True:
@@ -665,6 +665,9 @@ async def search(message):
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
 async def search_male(message):
 	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
+		if check_member.status not in ["member", "creator"]:
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
@@ -736,6 +739,9 @@ async def search_male(message):
 @dp.message_handler(lambda message: message.text == 'Female ♀️')
 async def search_female(message):
 	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
+		if check_member.status not in ["member", "creator"]:
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
