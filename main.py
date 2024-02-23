@@ -757,14 +757,16 @@ async def search_female(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
-			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
+			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')
-			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
+			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)
+				if db.get(user_id)[0] == ["none"]:
+					return await message.answer("set Looking place terlebih dahulu di sunting profil")
 				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0] is not None:
 					db.update_connect_with(
 						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0],
