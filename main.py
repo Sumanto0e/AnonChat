@@ -35,7 +35,6 @@ pay = Payok(api_id=config.API_ID, api_key=config.API_KEY, secret_key=config.SECR
 
 # Регистрация
 
-
 @dp.message_handler(lambda message: message.text == '🔙 Ke utama')
 @dp.message_handler(commands=['start'])
 async def start(message):
@@ -310,10 +309,22 @@ async def ref(message):
 			                     disable_web_page_preview=True, reply_markup=kb.on_kb)
 	except Exception as e:
 		warning_log.warning(e)
+		
+@dp.message_handler(commands=['getcoin'])
+async def getcoin(message):
+	try:
+		if str(message.from_user.id) in config.ADMINS:
+			db.edit_points(+100, message.from_user.id)
+			await message.answer('Berhasil mendapatkan 100 diamons')
+		else:
+			await message.answer('Anda bukan andmin')
+			
+	except Exception as e:
+		warning_log.warning(e)
 
 
 @dp.message_handler(commands=['trade'])
-@dp.message_handler(lambda message: message.text == 'Tukarkan COIN ONS')
+@dp.message_handler(lambda message: message.text == 'Tukarkan 💎')
 async def trade(message):
 	try:
 		if db.get_points(message.from_user.id)[0] >= 5:
@@ -321,11 +332,11 @@ async def trade(message):
 			if db.get_vip_ends(message.from_user.id)[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'),
 				                 message.from_user.id)
-				await message.answer('Durasi VIP berhasil ditambahkan 1 hari!')
+				await message.answer('Berhasil!')
 			else:
 				db.edit_vip_ends((datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
 				                  timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
-			await message.answer('Durasi VIP berhasil ditambahkan 1 hari!')
+			await message.answer('Успешно!')
 		else:
 			await message.answer('Anda tidak memiliki cukup poin')
 	except Exception as e:
@@ -595,20 +606,8 @@ class Chatting(StatesGroup):
 
 @dp.message_handler(commands=['search'])
 @dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
-async def force(message):
+async def search(message):
 	try:
-		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
-		if check_member.status not in ["member", "creator", "admin"]:
-			return await message.reply("<b>JOIN CHANNE</b>")
-		else:
-			return await search(message)
-	except Exception as e:
-		warning_log.warning(e)
-
-
-async def search(message):    
-	try:
-  		
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
 		await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 		while True:
