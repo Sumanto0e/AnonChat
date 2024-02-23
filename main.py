@@ -161,9 +161,25 @@ async def edit_name(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
 async def editing_name(message):
 	try:
-		db.edit_name(message.text, message.from_user.id)
-		await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
-		db.set_state(SetName.nothing.value, message.from_user.id)
+		if message.from_user.id == config.ADMINS:
+			if len(int(message.text)) >=7:
+				await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
+				await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
+				if db.get_vip_ends(int(message.text))[0] is None:
+					db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+           
+				else:
+					db.edit_vip_ends(
+						(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+				 	 	 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
+			else:
+				db.edit_name(message.text, message.from_user.id)
+				await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+				db.set_state(SetName.nothing.value, message.from_user.id)
+		else:
+			db.edit_name(message.text, message.from_user.id)
+			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+			db.set_state(SetName.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -178,9 +194,25 @@ async def edit_age(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetAge.waiting.value)
 async def editing_age(message):
 	try:
-		db.edit_age(message.text, message.from_user.id)
-		await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
-		db.set_state(SetAge.nothing.value, message.from_user.id)
+		if message.from_user.id == config.ADMINS:
+			if len(int(message.text) >= 7):
+				await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
+				await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 7 hari')
+				if db.get_vip_ends(int(message.text))[0] is None:
+					db.edit_vip_ends((datetime.now() + timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+           
+				else:
+					db.edit_vip_ends(
+						(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+				 	 	 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.text)
+			else:
+				db.edit_age(message.text, message.from_user.id)
+				await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+				db.set_state(SetAge.nothing.value, message.from_user.id)
+		else:
+			db.edit_age(message.text, message.from_user.id)
+			await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+			db.set_state(SetAge.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -222,9 +254,25 @@ async def edit_country(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetCountry.waiting.value)
 async def editing_country(message):
 	try:
-		db.edit_country(message.text, message.from_user.id)
-		await bot.send_message(message.from_user.id, "Negara disimpan!", reply_markup=kb.main_kb)
-		db.set_state(SetCountry.nothing.value, message.from_user.id)
+		if message.from_user.id == config.ADMINS:
+			if len(int(message.text) >= 7):
+				await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
+				await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 31 hari')
+				if db.get_vip_ends(int(message.text))[0] is None:
+					db.edit_vip_ends((datetime.now() + timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+           
+				else:
+					db.edit_vip_ends(
+						(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+				 	 	 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
+			else:
+				db.edit_age(message.text, message.from_user.id)
+				await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+				db.set_state(SetAge.nothing.value, message.from_user.id)
+		else:
+			db.edit_age(message.text, message.from_user.id)
+			await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+			db.set_state(SetAge.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -478,26 +526,9 @@ async def buy_day(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_dayy(message)
+			db.set_state(SetName.waiting.value, message.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 1k COIN ONS')
-	except Exception as e:
-		warning_log.warning(e)
-
-
-async def buying_dayy(message: type.message):
-
-	try:
-		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
-		if db.get_vip_ends(int(message.text))[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-           
-		else:
-			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
-
 	except Exception as e:
 		warning_log.warning(e)
 	
@@ -508,25 +539,9 @@ async def buy_week(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_week(message)
+			db.set_state(SetAge.waiting.value, message.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 5K COIN ONS')
-	except Exception as e:
-		warning_log.warning(e)
-
-async def buying_week(message):
-
-	try:
-		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 7 hari')
-		if db.get_vip_ends(int(message.text))[0] is None:
-			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-           
-		else:
-			db.edit_vip_ends(
-				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-				 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.text)
-
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -537,7 +552,7 @@ async def buy_mounth(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_mounth(message)
+			db.set_state(SetCountry.waiting.value, message.from_user.id)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 25K COIN ONS')
 	except Exception as e:
