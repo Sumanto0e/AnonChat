@@ -484,6 +484,7 @@ async def buy_day(message):
 	except Exception as e:
 		warning_log.warning(e)
 
+@dp.message_handler(lambda message: buying_dayy(message))
 async def buying_dayy(message):
 
 	try:
@@ -513,6 +514,7 @@ async def buy_week(message):
 	except Exception as e:
 		warning_log.warning(e)
 
+@dp.message_handler(lambda message: buying_week(message))
 async def buying_week(message):
 
 	try:
@@ -542,6 +544,7 @@ async def buy_mounth(message):
 	except Exception as e:
 		warning_log.warning(e)
   
+@dp.message_handler(lambda message: buying_mounth(message))
 async def buying_mounth(message):
 
 	try:
