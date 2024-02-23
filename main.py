@@ -267,11 +267,11 @@ async def editing_country(message):
 				 	 	 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
 			else:
 				db.edit_age(message.text, message.from_user.id)
-				await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+				await bot.send_message(message.from_user.id, "Negara disimpan!", reply_markup=kb.main_kb)
 				db.set_state(SetCountry.nothing.value, message.from_user.id)
 		else:
 			db.edit_country(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(message.from_user.id, "Negara disimpan!", reply_markup=kb.main_kb)
 			db.set_state(SetCountry.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
