@@ -596,18 +596,18 @@ class Chatting(StatesGroup):
 
 @dp.message_handler(commands=['search'])
 @dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
-async def force(message):
+async def search(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
 			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
-			return await search(message)
+			return await search_continue(message)
 	except Exception as e:
 		warning_log.warning(e)
 
 
-async def search(message):    
+async def search_continue(message):    
 	try:
   		
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
@@ -670,16 +670,16 @@ async def search(message):
 
 @dp.message_handler(commands=['search_male'])
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
-async def force(message):
+async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(CHANNELS, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
 			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
-			return await search_male(message)
+			return await search_male_continue(message)
 	except Exception as e:
 		warning_log.warning(e)
-async def search_male(message):
+async def search_male_continue(message):
 	try:
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
@@ -750,16 +750,16 @@ async def search_male(message):
 
 @dp.message_handler(commands=['search_female'])
 @dp.message_handler(lambda message: message.text == 'Female ♀️')
-async def force(message):
+async def search_female(message):
 	try:
 		check_member = await bot.get_chat_member(GRUB, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
 			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
-			return await search_female(message)
+			return await search_female_continue(message)
 	except Exception as e:
 		warning_log.warning(e)
-async def search_female(message):
+async def search_female_continue(message):
 	try:
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
