@@ -1,6 +1,7 @@
 import config
 from config import RegState
 from config import SetName, SetAge, SetSex, SetCountry, SetCity, SetId, SetOpSex
+import vip
 import keyboards as kb
 from db import DbWorker
 
@@ -472,18 +473,34 @@ async def buy_vip(message):
 	except Exception as e:
 		warning_log.warning(e)
 
-@dp.message_handler(lambda message: message)
 @dp.message_handler(lambda message: message.text == '👑 VIP per hari')
 async def buy_day(message):
 	try:
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await vip.buying_dayy(message)
+			return await buying_dayy(message)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 1k COIN ONS')
 	except Exception as e:
 		warning_log.warning(e)
+
+@dp.message_handler(lambda message: message)
+async def buying_dayy(message):
+
+	try:
+		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
+		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
+		if db.get_vip_ends(int(message.text))[0] is None:
+			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
+           
+		else:
+			db.edit_vip_ends(
+				(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
+				 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
+
+	except Exception as e:
+		warning_log.warning(e
 	
 
 @dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
@@ -503,7 +520,7 @@ async def buying_week(message):
 
 	try:
 		await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
-		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
+		await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 7 hari')
 		if db.get_vip_ends(int(message.text))[0] is None:
 			db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
            
