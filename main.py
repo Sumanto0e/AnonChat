@@ -751,7 +751,7 @@ async def search_male(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(commands=['search_plcae'])
+@dp.message_handler(commands=['search_place'])
 @dp.message_handler(lambda message: message.text == 'Looking place 📍')
 async def search_female(message):
 	try:
@@ -938,7 +938,7 @@ async def chatting(message, state: FSMContext):
 			else:
 				await message.answer('Akses ditolak')
 
-		# elif user_data['msg'] == '➡️Следующий диалог':
+		# elif user_data['msg'] == '➡️≈':
 		#     await search(message, state)
 		#
 		# elif user_data['msg'] == 'Подбросить монетку🎲':
