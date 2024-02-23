@@ -281,7 +281,7 @@ async def editing_city(message):
 @dp.message_handler(commands=['edit_op_sex'])
 @dp.callback_query_handler(lambda call: call.data == 'op_sex')
 async def edit_op_sex(call):
-     await bot.answer_callback_query(call.id, 'Введите пол собеседника:')
+     await bot.answer_callback_query(call.id, 'Masukkan daerah yang kamu ingin:')
      db.set_state(SetOpSex.waiting.value, call.from_user.id)
 
 
@@ -289,7 +289,7 @@ async def edit_op_sex(call):
 async def editing_op_sex(message):
      try:
          db.edit_op_sex(message.text, message.from_user.id)
-         await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+         await bot.send_message(message.from_user.id, "Pencarian orang berdasarkan daerah berhasil!")
          db.set_state(SetOpSex.nothing.value, message.from_user.id)
      except Exception as e:
          warning_log.warning(e)
@@ -767,13 +767,13 @@ async def search_female(message):
 				await asyncio.sleep(0.5)
 				if db.get_op_sex(user_id)[0] == 'None':
 					return await message.answer("set Looking place terlebih dahulu di sunting profil")
-				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0] is not None:
+				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get(user_id))[0] is not None:
 					db.update_connect_with(
-						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0],
+						db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get(user_id))[0],
 						message.from_user.id)
 					db.update_connect_with(
 						message.from_user.id, db.search_vip(message.from_user.id,
-						                                    db.get_sex(message.from_user.id)[0], db.get(user_id))[0])
+						                                    db.get_op_sex(message.from_user.id)[0], db.get(user_id))[0])
 					break
 			while True:
 				await asyncio.sleep(0.5)
