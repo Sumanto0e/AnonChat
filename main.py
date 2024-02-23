@@ -44,7 +44,7 @@ async def start(message):
 		if len(sp) > 1 and not db.user_exists(message.from_user.id):
 			user_id = sp[1]
 			db.edit_refs(1, user_id)
-			db.edit_points(1, user_id)
+			db.edit_points(+200, user_id)
 			if bool(db.get_notifications(user_id)[0]):
 				await bot.send_message(user_id, 'Seseorang bergabung dengan bot menggunakan tautan Anda!')
 				if db.get_refs(user_id)[0] % 10 == 0:
@@ -344,10 +344,10 @@ async def profile(message):
 async def ref(message):
 	try:
 		user_id = message.from_user.id
-		await message.answer(f'Bagikan tautan rujukan Anda untuk menerima 💎\n'
+		await message.answer(f'Bagikan tautan rujukan Anda untuk menerima COIN ONS\n'
 		                     f'1 klik tautan = 200 COIN ONS\n'
-		                     f'1000 COIN ONS 💎 = 1 hari status VIP 👑\n')
-		await message.answer(f'Diamond anda {db.get_points(user_id)[0]} 💎')
+		                     f'1000 COIN ONS = 1 hari status VIP 👑\n')
+		await message.answer(f'Diamond anda {db.get_points(user_id)[0]} COIN ONS')
 		if bool(db.get_notifications(message.from_user.id)[0]):
 			await message.answer(f'🆔 Tautan referensi Anda:\n'
 			                     f'{"https://t.me/Cintasatumalambot?start=" + str(user_id)}',
@@ -373,11 +373,11 @@ async def getcoin(message):
 
 
 @dp.message_handler(commands=['trade'])
-@dp.message_handler(lambda message: message.text == 'Tukarkan 💎')
+@dp.message_handler(lambda message: message.text == 'Tukarkan COIN ONS')
 async def trade(message):
 	try:
-		if db.get_points(message.from_user.id)[0] >= 5:
-			db.edit_points(-5, message.from_user.id)
+		if db.get_points(message.from_user.id)[0] >= 1000:
+			db.edit_points(-1000, message.from_user.id)
 			if db.get_vip_ends(message.from_user.id)[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'),
 				                 message.from_user.id)
