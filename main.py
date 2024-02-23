@@ -628,10 +628,15 @@ async def search(message):
 				sex = 'male'
 			elif db.get_sex(user_id)[0] == 'female':
 				sex = 'female'
-			text = (f'Menemukan seseorang untukmu 💕\n🅰️ Nama: \n🔞 Usia: \n👫 Jenis kelamin: {sex}\n🌍 Negara: {db.get_country(user_id)[0]}\n🏙️ Kota: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}')
-			profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-			await bot.send_message(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
-					                       reply_markup=kb.stop_kb)
+			await bot.send_message(message.from_user.id,
+			                       f'Menemukan seseorang untukmu 💕\n'
+			                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
+			                       f'🔞 Usia: {db.get_age(user_id)[0]}\n'
+			                       f'👫 Jenis kelamin: {sex}\n'
+			                       f'🌍 Negara: {db.get_country(user_id)[0]}\n'
+			                       f'🏙️ Kota: {db.get_city(user_id)[0]}\n'
+			                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
+			                       reply_markup=kb.stop_kb)
 		else:
 			await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
 		if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
@@ -689,19 +694,19 @@ async def search_male(message):
 				if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Tidak dikenal'
-					userr_id = db.get_connect_with(message.from_user.id)[0]
+					user_id = db.get_connect_with(message.from_user.id)[0]
 					if db.get_sex(user_id)[0] == 'male':
 						sex = 'male'
 					elif db.get_sex(user_id)[0] == 'female':
 						sex = 'female'
 					await bot.send_message(message.from_user.id,
 					                       f'Menemukan seseorang untukmu 💕\n'
-					                       f'🅰️ Nama: {db.get_name(userr_id)[0]}\n'
-					                       f'🔞 Usia: {db.get_age(userr_id)[0]}\n'
+					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
+					                       f'🔞 Usia: {db.get_age(user_id)[0]}\n'
 					                       f'👫 Jenis kelamin: {sex}\n'
-					                       f'🌍 Negara: {db.get_country(userr_id)[0]}\n'
-					                       f'🏙️ Kota: {db.get_city(userr_id)[0]}\n'
-					                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(userr_id)[0]}\n',
+					                       f'🌍 Negara: {db.get_country(user_id)[0]}\n'
+					                       f'🏙️ Kota: {db.get_city(user_id)[0]}\n'
+					                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
 					                       reply_markup=kb.stop_kb)
 				else:
 					await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
@@ -715,7 +720,7 @@ async def search_male(message):
 					elif db.get_sex(user_id)[0] == 'female':
 						sex = 'female'
 					text = (f'Menemukan seseorang untukmu 💕\n🅰️ Nama: \n🔞 Usia: \n👫 Jenis kelamin: {sex}\n🌍 Negara: {db.get_country(user_id)[0]}\n🏙️ Kota: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}')
-					profile_pictures = await dp.bot.get_user_profile_photos(userr_id)
+					profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
 					                       reply_markup=kb.stop_kb)
 				else:
