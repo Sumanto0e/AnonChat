@@ -96,7 +96,7 @@ async def set_sex(message, state: FSMContext):
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	elif message.text == 'F' or message.text == 'F':
-		await state.update_data(sex='female')
+		await state.update_data(sex='Female')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	else:
@@ -215,21 +215,21 @@ async def edit_sex(call):
 	db.set_state(SetSex.waiting.value, call.from_user.id)
 
 
-@dp.callback_query_handler(lambda call: call.data == 'male' or call.data == 'female')
+@dp.callback_query_handler(lambda call: call.data == 'male' or call.data == 'Female')
 async def editing_sex(call):
 	try:
-		if call.data == 'male':
-			db.edit_sex('male', call.from_user.id)
+		if call.data == 'Male':
+			db.edit_sex('Male', call.from_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
-		elif call.data == 'female':
-			db.edit_sex('female', call.from_user.id)
+		elif call.data == 'Female':
+			db.edit_sex('Female', call.from_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
 		else:
-			await call.reply("Anda memasukkan nilai yang salah, ketik 'male' atau 'female' silakan masukkan kembali")
+			await call.reply("Anda memasukkan nilai yang salah, ketik 'Male' atau 'Female' silakan masukkan kembali")
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -278,7 +278,21 @@ async def editing_city(message):
 	except Exception as e:
 		warning_log.warning(e)
 
+@dp.message_handler(commands=['edit_op_sex'])
+@dp.callback_query_handler(lambda call: call.data == 'op_sex')
+async def edit_op_sex(call):
+     await bot.answer_callback_query(call.id, 'Введите пол собеседника:')
+     db.set_state(SetOpSex.waiting.value, call.from_user.id)
 
+
+@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
+async def editing_op_sex(message):
+     try:
+         db.edit_op_sex(message.text, message.from_user.id)
+         await bot.send_message(message.from_user.id, "Пол собеседника сохранен!")
+         db.set_state(SetOpSex.nothing.value, message.from_user.id)
+     except Exception as e:
+         warning_log.warning(e)
 
 @dp.message_handler(commands=['profile'])
 @dp.message_handler(lambda message: message.text == 'Profil 👤')
@@ -286,9 +300,9 @@ async def profile(message):
 	try:
 		sex = 'Tidak dikenal'
 		user_id = message.from_user.id
-		if db.get_sex(user_id)[0] == 'male':
+		if db.get_sex(user_id)[0] == 'Male':
 			sex = 'Male'
-		elif db.get_sex(user_id)[0] == 'female':
+		elif db.get_sex(user_id)[0] == 'Female':
 			sex = 'Female'
 		await message.answer(
 			f'🅰️ Nama: {db.get_name(user_id)[0]}\n\n'
@@ -296,6 +310,8 @@ async def profile(message):
 			f'👫 Jenis kelamin: {sex}\n\n'
 			f'🌍 Negara: {db.get_country(user_id)[0]}\n\n'
 			f'🏙️ Kota: {db.get_city(user_id)[0]}',
+			f'📍 Looking place: {db.get_city(user_id)[0]}',
+   
 			reply_markup=kb.profile_kb)
 	except Exception as e:
 		warning_log.warning(e)
@@ -621,9 +637,9 @@ async def search(message):
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			sex = 'Tidak dikenal'
 			user_id = db.get_connect_with(message.from_user.id)[0]
-			if db.get_sex(user_id)[0] == 'male':
+			if db.get_sex(user_id)[0] == 'Male':
 				sex = 'Male'
-			elif db.get_sex(user_id)[0] == 'female':
+			elif db.get_sex(user_id)[0] == 'Female':
 				sex = 'Female'
 			await bot.send_message(message.from_user.id,
 			                       f'Menemukan seseorang untukmu 💕\n'
@@ -638,12 +654,12 @@ async def search(message):
 			await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
 		if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
 			db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0], '%d.%m.%Y %H:%M') > datetime.now():
-			sex = 'Неизвестно'
+			sex = 'Tidak dikenal'
 			user_id = message.from_user.id
-			if db.get_sex(user_id)[0] == 'male':
-				sex = 'Мужской'
-			elif db.get_sex(user_id)[0] == 'female':
-				sex = 'Женский'
+			if db.get_sex(user_id)[0] == 'Male':
+				sex = 'Male'
+			elif db.get_sex(user_id)[0] == 'Female':
+				sex = 'Female'
 			await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 			                       f'Menemukan seseorang untukmu 💕\n'
 			                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -690,12 +706,12 @@ async def search_male(message):
 					break
 				if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-					sex = 'Неизвестно'
+					sex = 'Tidak dikenal'
 					user_id = db.get_connect_with(message.from_user.id)[0]
-					if db.get_sex(user_id)[0] == 'male':
-						sex = 'Мужской'
-					elif db.get_sex(user_id)[0] == 'female':
-						sex = 'Женский'
+					if db.get_sex(user_id)[0] == 'Male':
+						sex = 'Male'
+					elif db.get_sex(user_id)[0] == 'Female':
+						sex = 'Female'
 					await bot.send_message(message.from_user.id,
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -712,9 +728,9 @@ async def search_male(message):
 					'%d.%m.%Y %H:%M') > datetime.now():
 					sex = 'Неизвестно'
 					user_id = message.from_user.id
-					if db.get_sex(user_id)[0] == 'male':
+					if db.get_sex(user_id)[0] == 'Male':
 						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'female':
+					elif db.get_sex(user_id)[0] == 'Female':
 						sex = 'Female'
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
 					                       f'Menemukan seseorang untukmu 💕\n'
@@ -735,8 +751,8 @@ async def search_male(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(commands=['search_female'])
-@dp.message_handler(lambda message: message.text == 'Female ♀️')
+@dp.message_handler(commands=['search_plcae'])
+@dp.message_handler(lambda message: message.text == 'Looking place 📍')
 async def search_female(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
@@ -744,17 +760,18 @@ async def search_female(message):
 			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
+			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 			while True:
+				user_id = message.from_user.id
 				await asyncio.sleep(0.5)
-				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')[0] is not None:
+				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0] is not None:
 					db.update_connect_with(
-						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')[0],
+						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get(user_id))[0],
 						message.from_user.id)
 					db.update_connect_with(
 						message.from_user.id, db.search_vip(message.from_user.id,
-						                                    db.get_sex(message.from_user.id)[0], 'female')[0])
+						                                    db.get_sex(message.from_user.id)[0], db.get(user_id))[0])
 					break
 			while True:
 				await asyncio.sleep(0.5)
@@ -764,12 +781,12 @@ async def search_female(message):
 					break
 				if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-					sex = 'Неизвестно'
+					sex = 'Tidak dikenal'
 					user_id = db.get_connect_with(message.from_user.id)[0]
-					if db.get_sex(user_id)[0] == 'male':
-						sex = 'Мужской'
-					elif db.get_sex(user_id)[0] == 'female':
-						sex = 'Женский'
+					if db.get_sex(user_id)[0] == 'Male':
+						sex = 'Male'
+					elif db.get_sex(user_id)[0] == 'Female':
+						sex = 'Female'
 					await bot.send_message(message.from_user.id,
 					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
@@ -780,18 +797,91 @@ async def search_female(message):
 					                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
 					                       reply_markup=kb.stop_kb)
 				else:
-					await bot.send_message(message.from_user.id, 'Нашёл кое-кого для тебя 💕', reply_markup=kb.stop_kb)
+					await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
 				if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
 					db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0],
 					'%d.%m.%Y %H:%M') > datetime.now():
-					sex = 'Неизвестно'
+					sex = 'Tidak dikenal'
 					user_id = message.from_user.id
-					if db.get_sex(user_id)[0] == 'male':
+					if db.get_sex(user_id)[0] == 'Male':
 						sex = 'Male'
-					elif db.get_sex(user_id)[0] == 'female':
+					elif db.get_sex(user_id)[0] == 'Female':
 						sex = 'Female'
 					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
-					                       f'Нашёл кое-кого для тебя 💕\n'
+					                       f'Menemukan seseorang untukmu 💕\n'
+					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
+					                       f'🔞 Usia: {db.get_age(user_id)[0]}\n'
+					                       f'👫 Jenis kelamin: {sex}\n'
+					                       f'🌍 Negara: {db.get_country(user_id)[0]}\n'
+					                       f'🏙️ Kota: {db.get_city(user_id)[0]}\n'
+					                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
+					                       reply_markup=kb.stop_kb)
+				else:
+					await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Menemukan seseorang untukmu 💕',
+					                       reply_markup=kb.stop_kb)
+				await Chatting.msg.set()
+		else:
+			await message.answer('Pencarian gender hanya tersedia untuk 👑 pengguna VIP')
+	except Exception as e:
+		warning_log.warning(e)
+  
+@dp.message_handler(commands=['search_female'])
+@dp.message_handler(lambda message: message.text == 'Female ♀️')
+async def search_female(message):
+	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
+		if check_member.status not in ["member", "creator"]:
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
+		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
+			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
+			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')
+			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
+			while True:
+				await asyncio.sleep(0.5)
+				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')[0] is not None:
+					db.update_connect_with(
+						db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'Female')[0],
+						message.from_user.id)
+					db.update_connect_with(
+						message.from_user.id, db.search_vip(message.from_user.id,
+						                                    db.get_sex(message.from_user.id)[0], 'Female')[0])
+					break
+			while True:
+				await asyncio.sleep(0.5)
+				if db.get_connect_with(message.from_user.id)[0] is not None:
+					db.delete_from_queue(message.from_user.id)
+					db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
+					break
+				if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
+					db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
+					sex = 'Tidak dikenal'
+					user_id = db.get_connect_with(message.from_user.id)[0]
+					if db.get_sex(user_id)[0] == 'Male':
+						sex = 'Male'
+					elif db.get_sex(user_id)[0] == 'Female':
+						sex = 'Female'
+					await bot.send_message(message.from_user.id,
+					                       f'Menemukan seseorang untukmu 💕\n'
+					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
+					                       f'🔞 Usia: {db.get_age(user_id)[0]}\n'
+					                       f'👫 Jenis kelamin: {sex}\n'
+					                       f'🌍 Negara: {db.get_country(user_id)[0]}\n'
+					                       f'🏙️ Kota: {db.get_city(user_id)[0]}\n'
+					                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
+					                       reply_markup=kb.stop_kb)
+				else:
+					await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
+				if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
+					db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0],
+					'%d.%m.%Y %H:%M') > datetime.now():
+					sex = 'Tidak dikenal'
+					user_id = message.from_user.id
+					if db.get_sex(user_id)[0] == 'Male':
+						sex = 'Male'
+					elif db.get_sex(user_id)[0] == 'Female':
+						sex = 'Female'
+					await bot.send_message(db.get_connect_with(message.from_user.id)[0],
+					                       f'Menemukan seseorang untukmu 💕\n'
 					                       f'🅰️ Nama: {db.get_name(user_id)[0]}\n'
 					                       f'🔞 Usia: {db.get_age(user_id)[0]}\n'
 					                       f'👫 Jenis kelamin: {sex}\n'
@@ -808,47 +898,6 @@ async def search_female(message):
 	except Exception as e:
 		warning_log.warning(e)
 
-
-# @dp.message_handler(lambda message: message.text == '🙎‍♂️ Парня' or message.text == '🙍‍♀️ Девушку')
-# async def choose_sex(message):
-#     try:
-#         if db.queue_exists(message.from_user.id):
-#             db.delete_from_queue(message.from_user.id)
-#         if message.text == '🙎‍♂️ Парня':
-#             db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
-#             await message.answer('Ищем для вас человечка.. 🔍', reply_markup=kb.stop_kb)
-#         elif message.text == '🙍‍♀️ Девушку':
-#             db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
-#             await message.answer('Ищем для вас человечка.. 🔍', reply_markup=kb.stop_kb)
-#
-#         while True:
-#             await asyncio.sleep(0.5)
-#             if db.search(message.from_user.id)[0] is not None:
-#                 if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_sex(message.from_user.id)[0]:
-#                     try:
-#                         db.update_connect_with(db.search(message.from_user.id)[0], message.from_user.id)
-#                         db.update_connect_with(message.from_user.id, db.search(message.from_user.id)[0])
-#                         break
-#                     except Exception as e:
-#                         print(e)
-#             while True:
-#                 await asyncio.sleep(0.5)
-#                 if db.get_connect_with(message.from_user.id)[0] is not None:
-#                     break
-#             try:
-#                 db.delete_from_queue(message.from_user.id)
-#                 db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
-#             except:
-#                 pass
-#             await Chatting.msg.set()
-#             await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Нашёл кое-кого для тебя 💕',
-#                                    reply_markup=kb.stop_kb)
-#             await bot.send_message(message.from_user.id, 'Нашёл кое-кого для тебя 💕',
-#                                    reply_markup=kb.stop_kb)
-#             return
-#     except Exception as e:
-#         warning_log.warning(e)
-#         await send_to_channel_log_exception(message, e)
 
 
 @dp.message_handler(content_types=ContentTypes.TEXT)
