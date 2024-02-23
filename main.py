@@ -630,7 +630,7 @@ async def search(message):
 				sex = 'female'
 			text = (f'Menemukan seseorang untukmu 💕\n🅰️ Nama: \n🔞 Usia: \n👫 Jenis kelamin: {sex}\n🌍 Negara: {db.get_country(user_id)[0]}\n🏙️ Kota: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}')
 			profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-			await bot.send_message(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+			await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
 					                       reply_markup=kb.stop_kb)
 		else:
 			await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
