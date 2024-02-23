@@ -161,20 +161,9 @@ async def edit_name(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
 async def editing_name(message):
 	try:
-		if str(message.from_user.id) in config.ADMINS:
-			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
-			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
-			if db.get_vip_ends(int(message.text))[0] is None:
-				db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
-       
-			else:
-				db.edit_vip_ends(
-					(datetime.strptime(db.get_vip_ends(int(message.text))[0], '%d.%m.%Y %H:%M') +
-			 	 	 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
-		else:
-			db.edit_name(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
-			db.set_state(SetName.nothing.value, message.from_user.id)
+		db.edit_name(message.text, message.from_user.id)
+		await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+		db.set_state(SetName.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
 
