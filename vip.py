@@ -1,3 +1,22 @@
+import config
+from config import RegState
+from config import SetName, SetAge, SetSex, SetCountry, SetCity, SetId, SetOpSex
+import vip
+import keyboards as kb
+from db import DbWorker
+
+import logging
+import asyncio
+from datetime import datetime, timedelta
+from aiopayok import Payok
+
+from aiogram import Bot
+from aiogram.types import ParseMode
+from aiogram.types.message import ContentTypes
+from aiogram.utils import executor, exceptions
+from aiogram.dispatcher import FSMContext, Dispatcher
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 @dp.message_handler(lambda message: message)
 async def buying_dayy(message):
