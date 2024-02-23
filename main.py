@@ -599,8 +599,8 @@ class Chatting(StatesGroup):
 async def search(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
-		if check_member.status not in ["member", "creator", "admin"]:
-			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
+		if check_member.status not in ["member", "admin"]:
+			await message.answer("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
 			return await search_continue(message)
 	except Exception as e:
@@ -674,7 +674,7 @@ async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(CHANNELS, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
-			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
+			return await message.answer("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
 			return await search_male_continue(message)
 	except Exception as e:
@@ -754,7 +754,7 @@ async def search_female(message):
 	try:
 		check_member = await bot.get_chat_member(GRUB, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
-			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
+			await message.answer("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
 			return await search_female_continue(message)
 	except Exception as e:
