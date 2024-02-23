@@ -767,13 +767,13 @@ async def search_female(message):
 				await asyncio.sleep(0.5)
 				if db.get_op_sex(user_id)[0] == 'None':
 					return await message.answer("set Looking place terlebih dahulu di sunting profil")
-				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get(user_id))[0] is not None:
+				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
 					db.update_connect_with(
-						db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get(user_id))[0],
+						db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]),
 						message.from_user.id)
 					db.update_connect_with(
 						message.from_user.id, db.search_vip(message.from_user.id,
-						                                    db.get_op_sex(message.from_user.id)[0], db.get(user_id))[0])
+						                                    db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]))
 					break
 			while True:
 				await asyncio.sleep(0.5)
