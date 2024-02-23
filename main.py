@@ -638,7 +638,7 @@ async def search(message):
 			sex = 'Tidak dikenal'
 			user_id = db.get_connect_with(message.from_user.id)[0]
 			if db.get_sex(user_id)[0] == 'male':
-				sex = 'fale'
+				sex = 'male'
 			elif db.get_sex(user_id)[0] == 'female':
 				sex = 'female'
 			await bot.send_message(message.from_user.id,
