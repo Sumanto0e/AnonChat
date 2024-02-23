@@ -480,7 +480,7 @@ async def buy_day(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_dayy(message)
+			return await vip.buying_dayy(message)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 1k COIN ONS')
 	except Exception as e:
@@ -493,7 +493,7 @@ async def buy_week(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_week(message)
+			return await vip.buying_week(message)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 5K COIN ONS')
 	except Exception as e:
@@ -506,7 +506,7 @@ async def buy_mounth(message):
         
 		if str(message.from_user.id) in config.ADMINS:
 			await message.answer(f'send id')
-			return await buying_mounth(message)
+			return await vip.buying_mounth(message)
 		else :
 			await message.answer(f'Contact @nazhak\nPrice 25K COIN ONS')
 	except Exception as e:
