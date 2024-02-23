@@ -55,7 +55,7 @@ vip_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('🆓 Dapatkan VIP secara
     '💰 Beli/Perpanjang VIP').add(to_main)
 
 day = KeyboardButton('👑 VIP per hari')
-week = KeyboardButton('👑 VIP per seminggu')
+week = KeyboardButton('👑 VIP per minggu')
 month = KeyboardButton('👑 VIP per bulan')
 buy_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(day).add(week).add(month).add(to_main)
 
