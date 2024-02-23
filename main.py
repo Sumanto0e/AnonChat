@@ -18,7 +18,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 db = DbWorker(config.DB)
-
+CHANNELS = -1001771712186
+GRUB = ('@onsbase')
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
@@ -671,7 +672,7 @@ async def search(message):
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
 async def force(message):
 	try:
-		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
+		check_member = await bot.get_chat_member(CHANNELS, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
 			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
@@ -751,7 +752,7 @@ async def search_male(message):
 @dp.message_handler(lambda message: message.text == 'Female ♀️')
 async def force(message):
 	try:
-		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id) 
+		check_member = await bot.get_chat_member(GRUB, message.from_user.id) 
 		if check_member.status not in ["member", "creator", "admin"]:
 			return await message.reply("<b>JOIN CHANNEL THE FIRST @ONSBASE</b>")
 		else:
