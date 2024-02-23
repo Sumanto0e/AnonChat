@@ -600,6 +600,9 @@ class Chatting(StatesGroup):
 @dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
 async def search(message):
 	try:
+		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
+		if check_member.status not in ["member", "creator"]:
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>")
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
 		await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 		while True:
