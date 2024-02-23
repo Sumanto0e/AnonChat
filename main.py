@@ -604,7 +604,7 @@ async def search(message):
 		else:
 			return await search_continue(message)
 	except Exception as e:
-		warning_log.warning(e)
+		warning_log.warning("ga bisa")
 
 
 async def search_continue(message):    
@@ -665,7 +665,7 @@ async def search_continue(message):
 			                       reply_markup=kb.stop_kb)
 		await Chatting.msg.set()
 	except Exception as e:
-		warning_log.warning(e)
+		warning_log.warning("kumaha")
 
 
 @dp.message_handler(commands=['search_male'])
