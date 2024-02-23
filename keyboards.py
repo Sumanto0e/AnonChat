@@ -44,7 +44,7 @@ country = InlineKeyboardButton('🌍 Negara', callback_data='country')
 city = InlineKeyboardButton('🏙️ Kota', callback_data='city')
 op_sex = InlineKeyboardButton('📍 Looking place', callback_data='op_sex')
 settings_kb = InlineKeyboardMarkup(
-    resize_keyboard=True).add(name).add(age).add(sex).add(country).add(city)
+    resize_keyboard=True).add(name).add(age).add(sex).add(country).add(city).add(op_sex)
 
 change_profile = KeyboardButton('⚙️ Sunting profil')
 statistic = KeyboardButton('📈 Statistik')
