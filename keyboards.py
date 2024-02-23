@@ -30,11 +30,12 @@ search_female_kb = ReplyKeyboardMarkup(
 
 man = KeyboardButton('Male ♂️')
 random = KeyboardButton('Acak 🔀')
+looking = KeyboardButton('📍 Looking place')
 woman = KeyboardButton('Female ♀️')
 vip = KeyboardButton('VIP 👑')
 rules = KeyboardButton('Peraturan 📖')
 profile = KeyboardButton('Profil 👤')
-main_kb = ReplyKeyboardMarkup(resize_keyboard=True).row(man, random, woman).row(vip, rules, profile)
+main_kb = ReplyKeyboardMarkup(resize_keyboard=True).row(man, random, looking, woman).row(vip, rules, profile)
 
 name = InlineKeyboardButton('🅰️ Nama', callback_data='name')
 age = InlineKeyboardButton('🔞 Usia', callback_data='age')
