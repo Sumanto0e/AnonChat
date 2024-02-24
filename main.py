@@ -686,7 +686,7 @@ async def search_place(message):
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
-				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id))[0] is not None:
+				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
 					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_op_sex(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
@@ -718,7 +718,7 @@ async def search_place(message):
 					                    reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
-			if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
+			if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0][0]) is not None and datetime.strptime(
 				db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0],
 				'%d.%m.%Y %H:%M') > datetime.now():
 				sex = 'Tidak dikenal'
