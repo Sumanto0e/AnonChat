@@ -746,10 +746,8 @@ async def search_female(message):
 async def search_male(message):
     try:
         if db.get_sex(message.from_user.id)[0] == 'male':
-            db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
             await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
         elif db.get_sex(message.from_user.id)[0] == 'female':
-            db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
             await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
 
         while True:
