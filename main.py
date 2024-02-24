@@ -289,22 +289,6 @@ async def editing_city(message):
 	except Exception as e:
 		warning_log.warning(e)
 
-@dp.message_handler(commands=['edit_op_sex'])
-@dp.callback_query_handler(lambda call: call.data == 'op_sex')
-async def edit_op_sex(call):
-     await bot.answer_callback_query(call.id, 'Masukkan daerah yang kamu ingin:')
-     db.set_state(SetOpSex.waiting.value, call.from_user.id)
-
-
-@dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetOpSex.waiting.value)
-async def editing_op_sex(message):
-     try:
-         db.edit_op_sex(message.text, message.from_user.id)
-         await bot.send_message(message.from_user.id, "Pencarian orang berdasarkan daerah berhasil!")
-         db.set_state(SetOpSex.nothing.value, message.from_user.id)
-     except Exception as e:
-         warning_log.warning(e)
-
 @dp.message_handler(commands=['profile'])
 @dp.message_handler(lambda message: message.text == 'Profil 👤')
 async def profile(message):
@@ -321,7 +305,7 @@ async def profile(message):
 			f'👫 Jenis kelamin: {sex}\n\n'
 			f'🌍 Negara: {db.get_country(user_id)[0]}\n\n'
 			f'🏙️ Kota: {db.get_city(user_id)[0]}\n\n'
-			f'📍 Looking place: {db.get_op_sex(user_id)[0]}',
+			f'💕 Couple {db.get_op_sex(user_id)[0]}',
    
 			reply_markup=kb.profile_kb)
 	except Exception as e:
