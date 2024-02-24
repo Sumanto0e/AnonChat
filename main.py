@@ -747,11 +747,11 @@ async def search_male(message):
      try:
          if db.queue_exists(message.from_user.id):
              db.delete_from_queue(message.from_user.id)
-         user_id = message.from_user.id
-         if db.get_sex(user_id)[0] == 'male':
+             await message.answer('Kami sedang mencari lonte untuk anda.. 🔍', reply_markup=kb.stop_kb)
+         if db.get_sex(message.from_user.id)[0] == 'male':
              db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
              await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
-         elif db.get_sex(user_id)[0] == 'female':
+         elif db.get_sex(message.from_user.id)[0] == 'female':
              db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
              await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
 
