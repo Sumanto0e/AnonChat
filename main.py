@@ -35,7 +35,7 @@ pay = Payok(api_id=config.API_ID, api_key=config.API_KEY, secret_key=config.SECR
 
 # Регистрация
 
-@dp.message_handler(lambda message: message.text == '🔙 ke utama')
+@dp.message_handler(lambda message: message.text == '🔙 Ke utama')
 @dp.message_handler(commands=['start'])
 async def start(message):
 	try:
@@ -44,21 +44,22 @@ async def start(message):
 		if len(sp) > 1 and not db.user_exists(message.from_user.id):
 			user_id = sp[1]
 			db.edit_refs(1, user_id)
-			db.edit_points(1, user_id)
+			db.edit_points(+200, user_id)
 			if bool(db.get_notifications(user_id)[0]):
-				await bot.send_message(user_id, 'Кто-то присоединился к боту по вашей ссылке!')
+				await bot.send_message(user_id, 'Seseorang bergabung dengan bot menggunakan tautan Anda!')
 				if db.get_refs(user_id)[0] % 10 == 0:
-					await bot.send_message(user_id, 'Вы можете отключить уведомления о новых рефах в настройках.')
+					await bot.send_message(user_id, 'Anda dapat mematikan notifikasi tentang referensi baru di pengaturan.')
 		if not db.user_exists(message.from_user.id):
-			await message.answer(f"🎉Добро пожаловать в анонимный чат!🎉\n"
-			                     f"Перед тем как начать общение необходимо пройти регистрацию.\n"
-			                     f"После регистрации вы получите <b>вип на неделю бесплатно!</b>\n"
-			                     f"Начать регистрацию - /registrate\n"
-			                     f"Правила чата - /rules", parse_mode='HTML')
+			await message.answer(f"🎉Selamat datang di obrolan anonim!🎉\n"
+			                     f"Sebelum Anda mulai berkomunikasi, Anda harus mendaftar.\n"
+			                     f"Setelah pendaftaran Anda akan menerima <b>VIP selama sebulan gratis!</b>\n"
+			                     f"Mulai pendaftaran - /daftar\n"
+			                     f"Aturan obrolan - /rules", parse_mode='HTML')
 		else:
-			await message.answer(f'Привет, {db.get_name(message.from_user.id)[0]}', reply_markup=kb.main_kb)
+			await message.answer(f'Halo, {db.get_name(message.from_user.id)[0]}', reply_markup=kb.main_kb)
 	except Exception as e:
 		warning_log.warning(e)
+
 
 @dp.message_handler(commands=['help'])
 async def help(message):
@@ -252,10 +253,6 @@ async def edit_country(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetCountry.waiting.value)
 async def editing_country(message):
 	try:
-		if message.from_user.id not in config.ADMINS:
-			db.edit_name(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
-			db.set_state(SetName.nothing.value, message.from_user.id)
 		if message.from_user.id in config.ADMINS:
 			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
 			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 31 hari')
