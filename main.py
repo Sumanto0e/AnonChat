@@ -742,14 +742,12 @@ async def search_place(message):
   
 @dp.message_handler(commands=['search_male'])
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
-async def search_place(message):
+async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
 			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		user_id = message.from_user.id
-		if db.get_op_sex(user_id)[0] == 'None':
-			return await message.answer("set Looking place terlebih dahulu di sunting profil")
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id)[0])
