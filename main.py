@@ -750,7 +750,7 @@ async def search_male(message):
 		user_id = message.from_user.id
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id)[0])
+			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id))[0]
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
