@@ -746,37 +746,37 @@ async def search_female(message):
 async def search_male(message):
     try:
         if db.get_sex(message.from_user.id)[0] == 'male':
-             db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
-             await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
-         elif db.get_sex(message.from_user.id)[0] == 'female':
-             db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
-             await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
+            db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
+            await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
+        elif db.get_sex(message.from_user.id)[0] == 'female':
+            db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')
+            await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
 
-         while True:
-             await asyncio.sleep(0.5)
-             if db.search(message.from_user.id)[0] is not None:
-                 if db.get_sex(db.search(message.from_user.id)[0])[0] != db.get_sex(message.from_user.id)[0]:
-                     try:
-                         db.update_connect_with(db.search(message.from_user.id)[0], message.from_user.id)
-                         db.update_connect_with(message.from_user.id, db.search(message.from_user.id)[0])
-                         break
-                     except Exception as e:
-                         print(e)
-             while True:
-                 await asyncio.sleep(0.5)
-                 if db.get_connect_with(message.from_user.id)[0] is not None:
-                     break
-             try:
-                 db.delete_from_queue(message.from_user.id)
-                 db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
-             except:
-                 pass
-             await Chatting.msg.set()
-             await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Нашёл кое-кого для тебя 💕',
+        while True:
+            await asyncio.sleep(0.5)
+            if db.search(message.from_user.id)[0] is not None:
+                if db.get_sex(db.search(message.from_user.id)[0])[0] != db.get_sex(message.from_user.id)[0]:
+                    try:
+                        db.update_connect_with(db.search(message.from_user.id)[0], message.from_user.id)
+                        db.update_connect_with(message.from_user.id, db.search(message.from_user.id)[0])
+                        break
+                    except Exception as e:
+                        print(e)
+            while True:
+                await asyncio.sleep(0.5)
+                if db.get_connect_with(message.from_user.id)[0] is not None:
+                    break
+            try:
+                db.delete_from_queue(message.from_user.id)
+                db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
+            except:
+                pass
+            await Chatting.msg.set()
+            await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Нашёл кое-кого для тебя 💕',
+                                	reply_markup=kb.stop_kb)
+            await bot.send_message(message.from_user.id, 'Нашёл кое-кого для тебя 💕',
                                     reply_markup=kb.stop_kb)
-             await bot.send_message(message.from_user.id, 'Нашёл кое-кого для тебя 💕',
-                                    reply_markup=kb.stop_kb)
-             return
+            return
     except Exception as e:
          warning_log.warning(e)
          await bot.send_message(config.ADMINS, message, e)
