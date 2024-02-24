@@ -93,12 +93,10 @@ async def set_name(message, state: FSMContext):
 async def set_sex(message, state: FSMContext):
 	if message.text == 'м' or message.text == 'M':
 		await state.update_data(sex='male')
-		await state.update_data(op_sex='female')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	elif message.text == 'F' or message.text == 'F':
 		await state.update_data(sex='female')
-		await state.update_data(op_sex='male')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	else:
@@ -679,8 +677,6 @@ async def search_place(message):
 		if check_member.status not in ["member", "creator"]:
 			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		user_id = message.from_user.id
-		if db.get_op_sex(user_id)[0] == 'None':
-			return await message.answer("set Looking place terlebih dahulu di sunting profil")
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_city(message.from_user.id)[0], db.get_city(user_id)[0])
