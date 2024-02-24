@@ -686,7 +686,7 @@ async def search_place(message):
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
-				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
+				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id))[0] is not None:
 					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_op_sex(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
@@ -756,21 +756,12 @@ async def search_place(message):
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)
 				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id))[0] is not None:
-					if db.get_sex(user_id)[0] == 'male':
-						db.update_connect_with(
-							db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')[0],
-							message.from_user.id)
-						db.update_connect_with(
-							message.from_user.id, db.search_vip(message.from_user.id,
-					            db.get_sex(message.from_user.id)[0], 'female')[0])
-					elif db.get_sex(user_id)[0] == 'female':
-						db.update_connect_with(
-							db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')[0],
-							message.from_user.id)
-						db.update_connect_with(
-							message.from_user.id, db.search_vip(message.from_user.id,
-					            db.get_sex(message.from_user.id)[0], 'male')[0])					
-						break							
+					if db.get_op_sex(db.search(message.from_user.id)[0])[0] != db.get_op_sex(message.from_user.id)[0]:
+							db.update_connect_with(
+								db.search(message.from_user.id)[0], message.from_user.id)
+							db.update_connect_with(
+								message.from_user.id, db.search(message.from_user.id)[0])
+							break							
 			while True:
 				await asyncio.sleep(0.5)
 				if db.get_connect_with(message.from_user.id)[0] is not None:
@@ -817,8 +808,6 @@ async def search_place(message):
 			await message.answer('Pencarian gender hanya tersedia untuk 👑 pengguna VIP')
 	except Exception as e:
 		warning_log.warning(e)
-    
-
 
 
 @dp.message_handler(content_types=ContentTypes.TEXT)
