@@ -745,8 +745,7 @@ async def search_female(message):
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
 async def search_male(message):
      try:
-         
-         user_id = db.get_connect_with(message.from_user.id)[0]
+         user_id = message.from_user.id
          if db.queue_exists(message.from_user.id):
              db.delete_from_queue(message.from_user.id)
          if db.get_sex(user_id)[0] == 'male':
