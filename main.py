@@ -744,11 +744,8 @@ async def search_female(message):
 @dp.message_handler(commands=['search_male'])
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
 async def search_male(message):
-     try:
-         if db.queue_exists(message.from_user.id):
-             db.delete_from_queue(message.from_user.id)
-             await message.answer('Kami sedang mencari lonte untuk anda.. 🔍', reply_markup=kb.stop_kb)
-         if db.get_sex(message.from_user.id)[0] == 'male':
+    try:
+        if db.get_sex(message.from_user.id)[0] == 'male':
              db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')
              await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.stop_kb)
          elif db.get_sex(message.from_user.id)[0] == 'female':
@@ -780,7 +777,7 @@ async def search_male(message):
              await bot.send_message(message.from_user.id, 'Нашёл кое-кого для тебя 💕',
                                     reply_markup=kb.stop_kb)
              return
-     except Exception as e:
+    except Exception as e:
          warning_log.warning(e)
          await bot.send_message(config.ADMINS, message, e)
 
