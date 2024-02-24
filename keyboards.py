@@ -66,8 +66,8 @@ sex_kb = InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(
 
 on = KeyboardButton('Enable notifications 🔔')
 off = KeyboardButton('Turn off notifications 🔕')
-on_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Tukarkan 💎').add(on).add(to_main)
-off_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Tukarkan 💎').add(off).add(to_main)
+on_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Exchange COIN ONS').add(on).add(to_main)
+off_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Exchange COIN ONS').add(off).add(to_main)
 
 top = KeyboardButton('🏆 Rating')
 statistic_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(top).add(to_main)
