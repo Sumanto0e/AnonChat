@@ -761,7 +761,7 @@ async def search_male(message):
 						db.update_connect_with(
 							message.from_user.id, db.search_vip(message.from_user.id,
 						                                    db.get_sex(message.from_user.id)[0], 'male')[0])
-      
+					break
 				if db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male'):
 					if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'male')[0] is not None:
 						db.update_connect_with(
