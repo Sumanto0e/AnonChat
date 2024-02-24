@@ -52,7 +52,7 @@ async def start(message):
 		if not db.user_exists(message.from_user.id):
 			await message.answer(f"🎉Selamat datang di obrolan anonim!🎉\n"
 			                     f"Sebelum Anda mulai berkomunikasi, Anda harus mendaftar.\n"
-			                     f"Setelah pendaftaran Anda akan menerima <b>VIP selama sebulan gratis!</b>\n"
+			                     f"Setelah pendaftaran Anda akan menerima <b>VIP selama seminggu gratis!</b>\n"
 			                     f"Mulai pendaftaran - /daftar\n"
 			                     f"Aturan obrolan - /rules", parse_mode='HTML')
 		else:
