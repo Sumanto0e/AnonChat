@@ -35,7 +35,7 @@ pay = Payok(api_id=config.API_ID, api_key=config.API_KEY, secret_key=config.SECR
 
 # Регистрация
 
-@dp.message_handler(lambda message: message.text == '🔙 Ke utama')
+@dp.message_handler(lambda message: message.text == '🔙 Go to main')
 @dp.message_handler(commands=['start'])
 async def start(message):
 	try:
@@ -319,16 +319,16 @@ async def settings(message):
 
 
 @dp.message_handler(commands=['statistic'])
-@dp.message_handler(lambda message: message.text == '📈 Statistik')
+@dp.message_handler(lambda message: message.text == '📈 Statistics')
 async def profile(message):
 	try:
 		user_id = message.from_user.id
 		await message.answer(
-			f'💬 Obrolan: {db.get_chats(user_id)[0]}\n\n'
-			f'⌨️ Pesan: {db.get_messages(user_id)[0]}\n\n'
-			f'👍 Suka: {db.get_likes(user_id)[0]}\n\n'
-			f'👎 Tidak suka: {db.get_dislikes(user_id)[0]}\n\n'
-			f'👨‍💻 Pengguna diundang: {db.get_refs(user_id)[0]}',
+			f'💬 Chat: {db.get_chats(user_id)[0]}\n\n'
+			f'⌨️ Message: {db.get_messages(user_id)[0]}\n\n'
+			f'👍 Like: {db.get_likes(user_id)[0]}\n\n'
+			f'👎 Not like: {db.get_dislikes(user_id)[0]}\n\n'
+			f'👨‍💻 Referral: {db.get_refs(user_id)[0]}',
 			reply_markup=kb.statistic_kb)
 	except Exception as e:
 		warning_log.warning(e)
@@ -368,7 +368,7 @@ async def getcoin(message):
 
 
 @dp.message_handler(commands=['trade'])
-@dp.message_handler(lambda message: message.text == 'Tukarkan COIN ONS')
+@dp.message_handler(lambda message: message.text == 'Exchange COIN ONS')
 async def trade(message):
 	try:
 		if db.get_points(message.from_user.id)[0] >= 1000:
@@ -560,7 +560,7 @@ async def buy_mounth(message):
 # Поиск
 
 @dp.message_handler(commands=['cancel_search'])
-@dp.message_handler(lambda message: message.text == '🚫 Batalkan pencarian')
+@dp.message_handler(lambda message: message.text == '🚫 Cancel search')
 async def cancel_search(message):
 	try:
 		await message.answer('Pencarian dibatalkan. 😥\nKetik /search, untuk mulai mencari',
@@ -807,7 +807,7 @@ async def chatting(message, state: FSMContext):
 				                       'Pengguna tidak mengisikan nama panggilan pada pengaturan telegram!')
 			else:
 				await message.answer('@' + message.from_user.username)
-		elif user_data['msg'] == '🛑 Hentikan dialog' or user_data['msg'] == '/stop':
+		elif user_data['msg'] == '🛑 Stop dialogue' or user_data['msg'] == '/stop':
 			await state.finish()
 			await bot.send_message(message.from_user.id,
 			                       'Dialog terhenti 😞\nAnda dapat menilai lawan bicara Anda di bawah',
