@@ -686,7 +686,7 @@ async def search_place(message):
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
-				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id))[0] is not None:
+				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
 					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_op_sex(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
