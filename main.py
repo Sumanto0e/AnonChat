@@ -93,10 +93,12 @@ async def set_name(message, state: FSMContext):
 async def set_sex(message, state: FSMContext):
 	if message.text == 'м' or message.text == 'M':
 		await state.update_data(sex='male')
+		await state.update_data(op_sex='female')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	elif message.text == 'F' or message.text == 'F':
 		await state.update_data(sex='female')
+		await state.update_data(op_sex='male')
 		await message.answer("Sekarang masukkan usia Anda.")
 		await RegState.age.set()
 	else:
@@ -229,11 +231,13 @@ async def editing_sex(call):
 	try:
 		if call.data == 'male':
 			db.edit_sex('male', call.from_user.id)
+			db.edit_op_sex('female', call.form_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
 		elif call.data == 'female':
 			db.edit_sex('female', call.from_user.id)
+			db.edit_op_sex('male', call.form_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
@@ -681,13 +685,13 @@ async def search_place(message):
 			return await message.answer("set Looking place terlebih dahulu di sunting profil")
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0])
+			db.add_to_queue_vip(message.from_user.id, db.get_city(message.from_user.id)[0], db.get_city(user_id)[0])
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
-				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
-					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_op_sex(message.from_user.id)[0]:
+				if db.search_vip(message.from_user.id, db.get_city(message.from_user.id)[0], db.get_city(user_id)[0]) is not None:
+					if db.get_city(db.search(message.from_user.id)[0])[0] == db.get_city(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
 							db.update_connect_with(
@@ -756,7 +760,7 @@ async def search_male(message):
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
 				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id)[0]) is not None:
-					if db.get_sex(db.search(message.from_user.id)[0])[0] < db.get_sex(message.from_user.id)[0]:
+					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_sex(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
 							db.update_connect_with(
