@@ -743,7 +743,7 @@ async def search_female(message):
   
 @dp.message_handler(commands=['search_male'])
 @dp.message_handler(lambda message: message.text == 'Male ♂️')
-async def choose_sex(message):
+async def search_male(message):
      try:
          
          user_id = db.get_connect_with(message.from_user.id)[0]
