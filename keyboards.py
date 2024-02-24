@@ -32,7 +32,7 @@ man = KeyboardButton('Couple 💕')
 random = KeyboardButton('Random 🔀')
 looking = KeyboardButton('Peaplo nearby 📍')
 vip = KeyboardButton('VIP 👑')
-rules = KeyboardButton('Peraturan 📖')
+rules = KeyboardButton('Rules 📖')
 profile = KeyboardButton('Profil 👤')
 main_kb = ReplyKeyboardMarkup(resize_keyboard=True).row(man, random, looking).row(vip, rules, profile)
 
@@ -44,7 +44,7 @@ city = InlineKeyboardButton('🏙️ City', callback_data='city')
 settings_kb = InlineKeyboardMarkup(
     resize_keyboard=True).add(name).add(age).add(sex).add(country).add(city).add(op_sex)
 
-change_profile = KeyboardButton('⚙️ Sunting profil')
+change_profile = KeyboardButton('⚙️ Edit profile')
 statistic = KeyboardButton('📈 Statistics')
 ref = KeyboardButton('💼 Reference')
 profile_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(change_profile).add(
