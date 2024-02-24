@@ -231,13 +231,11 @@ async def editing_sex(call):
 	try:
 		if call.data == 'male':
 			db.edit_sex('male', call.from_user.id)
-			db.edit_op_sex('female', call.form_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
 		elif call.data == 'female':
 			db.edit_sex('female', call.from_user.id)
-			db.edit_op_sex('male', call.form_user.id)
 			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
