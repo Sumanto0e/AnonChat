@@ -763,7 +763,7 @@ async def search_place(message):
 						db.update_connect_with(
 							message.from_user.id, db.search_vip(message.from_user.id,
 						                                    db.get_sex(message.from_user.id)[0], 'female')[0])
-					elif db.get_sex(db.search(message.from_user.id)[0])[0] == 'female':
+					elif db.get_op_sex(db.search(message.from_user.id)[0])[0] == 'female':
 						db.update_connect_with(
 							db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], 'female')[0],
 							message.from_user.id)
