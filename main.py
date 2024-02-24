@@ -161,6 +161,11 @@ async def edit_name(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
 async def editing_name(message):
 	try:
+		if message.from_user.id not in config.ADMINS:
+			db.edit_name(message.text, message.from_user.id)
+			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+			db.set_state(SetName.nothing.value, message.from_user.id)
+   
 		if str(message.from_user.id) in config.ADMINS:
 			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
 			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
@@ -189,6 +194,10 @@ async def edit_age(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetAge.waiting.value)
 async def editing_age(message):
 	try:
+		if message.from_user.id not in config.ADMINS:
+			db.edit_name(message.text, message.from_user.id)
+			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+			db.set_state(SetName.nothing.value, message.from_user.id)
 		if str(message.from_user.id) in config.ADMINS:
 			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
 			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 7 hari')
@@ -244,6 +253,10 @@ async def edit_country(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetCountry.waiting.value)
 async def editing_country(message):
 	try:
+		if message.from_user.id not in config.ADMINS:
+			db.edit_name(message.text, message.from_user.id)
+			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+			db.set_state(SetName.nothing.value, message.from_user.id)
 		if message.from_user.id in config.ADMINS:
 			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
 			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 31 hari')
