@@ -679,17 +679,15 @@ async def search_place(message):
 		if check_member.status not in ["member", "creator"]:
 			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		user_id = message.from_user.id
-		if db.get_op_sex(user_id)[0] == 'None':
-			return await message.answer("set Looking place terlebih dahulu di sunting profil")
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0])
+			db.add_to_queue_vip(message.from_user.id, db.get_city(message.from_user.id)[0], db.get_city(user_id)[0])
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
-				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
-					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_op_sex(message.from_user.id)[0]:
+				if db.search_vip(message.from_user.id, db.get_city(message.from_user.id)[0], db.get_city(user_id)[0]) is not None:
+					if db.get_city(db.search(message.from_user.id)[0])[0] == db.get_city(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
 							db.update_connect_with(
@@ -752,13 +750,13 @@ async def search_male(message):
 		user_id = message.from_user.id
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
-			db.add_to_queue_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id)[0])
+			db.add_to_queue_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0])
 			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
-				if db.search_vip(message.from_user.id, db.get_sex(message.from_user.id)[0], db.get_sex(user_id)[0]) is not None:
-					if db.get_sex(db.search(message.from_user.id)[0])[0] < db.get_sex(message.from_user.id)[0]:
+				if db.search_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_op_sex(user_id)[0]) is not None:
+					if db.get_op_sex(db.search(message.from_user.id)[0])[0] == db.get_sex(message.from_user.id)[0]:
 							db.update_connect_with(
 								db.search(message.from_user.id)[0], message.from_user.id)
 							db.update_connect_with(
