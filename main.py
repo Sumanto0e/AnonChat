@@ -651,7 +651,7 @@ async def search(message):
 
 
 @dp.message_handler(commands=['search_nearby'])
-@dp.message_handler(lambda message: message.text == 'Peaplo nearby 📍 📍')
+@dp.message_handler(lambda message: message.text == 'Peaplo nearby 📍')
 async def search_nearby(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
@@ -719,8 +719,8 @@ async def search_nearby(message):
 	except Exception as e:
 		warning_log.warning(e)
   
-@dp.message_handler(commands=['search_couple 💕'])
-@dp.message_handler(lambda message: message.text == 'Couple ♂️')
+@dp.message_handler(commands=['search_couple'])
+@dp.message_handler(lambda message: message.text == 'Couple 💕')
 async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
