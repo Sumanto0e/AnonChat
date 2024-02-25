@@ -163,11 +163,6 @@ async def edit_name(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetName.waiting.value)
 async def editing_name(message):
 	try:
-		if message.from_user.id not in config.ADMINS:
-			db.edit_name(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Name saved!", reply_markup=kb.main_kb)
-			db.set_state(SetName.nothing.value, message.from_user.id)
-   
 		if str(message.from_user.id) in config.ADMINS:
 			await bot.send_message(int(message.text), f'VIP duration has been successfully added by 1 day')
 			await bot.send_message(5458705482, f'VIP duration is successful {message.text} added 1 day')
@@ -180,7 +175,7 @@ async def editing_name(message):
 			 	 	 timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.text)
 		else:
 			db.edit_name(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(message.from_user.id, "Name saved!", reply_markup=kb.main_kb)
 			db.set_state(SetName.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
