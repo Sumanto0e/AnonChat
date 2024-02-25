@@ -164,7 +164,7 @@ async def edit_name(call):
 async def editing_name(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
-			await bot.send_message(int(message.text), f'VIP duration has been successfully added by 1 day')
+			await bot.send_message(int(message.text), f'VIP duration successfully added 1 day')
 			await bot.send_message(5458705482, f'VIP duration is successful {message.text} added 1 day')
 			if db.get_vip_ends(int(message.text))[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
@@ -192,7 +192,7 @@ async def edit_age(call):
 async def editing_age(message):
 	try:
 		if str(message.from_user.id) in config.ADMINS:
-			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
+			await bot.send_message(int(message.text), f'VIP duration successfully added 7 day')
 			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 7 hari')
 			if db.get_vip_ends(int(message.text))[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), int(message.text))
@@ -248,7 +248,7 @@ async def edit_country(call):
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetCountry.waiting.value)
 async def editing_country(message):
 	try:
-		if message.from_user.id in config.ADMINS:
+		if str(message.from_user.id) in config.ADMINS:
 			await bot.send_message(int(message.text), f'VIP duration successfully added 31 days')
 			await bot.send_message(5458705482, f'VIP duration is successful {message.text} added 31 days')
 			if db.get_vip_ends(int(message.text))[0] is None:
