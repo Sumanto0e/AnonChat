@@ -686,12 +686,12 @@ async def search_nearby(message):
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 				await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
-					                       reply_markup=kb.stop_kb)
+						                       reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(message.from_user.id, 'Find someone for you 💕', reply_markup=kb.stop_kb)
-			if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0][0]) is not None and datetime.strptime(
-				db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0],
-				'%d.%m.%Y %H:%M') > datetime.now():
+   
+			if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
+				db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0], '%d.%m.%Y %H:%M') > datetime.now():
 				sex = 'Tidak dikenal'
 				user_id = message.from_user.id
 				if db.get_sex(user_id)[0] == 'male':
@@ -701,10 +701,10 @@ async def search_nearby(message):
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
-					                       reply_markup=kb.stop_kb)
+						                       reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Find someone for you 💕',
-				                       reply_markup=kb.stop_kb)
+			    	                   reply_markup=kb.stop_kb)
 			await Chatting.msg.set()
 		else:
 			await message.answer('People nearby search is only available for 👑 VIP users')
@@ -717,12 +717,12 @@ async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
-			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
+			return await message.answer("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT AGAIN</b>", parse_mode='HTML')
 		user_id = message.from_user.id
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_sex(user_id)[0])
-			await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍\nBila lama coba untuk ganti looking place', reply_markup=kb.cancel_search_kb)
+			await message.answer('We are looking for someone for you.. 🔍\If it takes a long time, try changing your city', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
@@ -739,6 +739,7 @@ async def search_male(message):
 					db.delete_from_queue(message.from_user.id)
 					db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
 					break
+ 
 			if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 				db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 				sex = 'Tidak dikenal'
@@ -750,12 +751,12 @@ async def search_male(message):
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 				await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
-					                       reply_markup=kb.stop_kb)
+						                       reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(message.from_user.id, 'Find someone for you 💕', reply_markup=kb.stop_kb)
-			if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0][0]) is not None and datetime.strptime(
-				db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0],
-				'%d.%m.%Y %H:%M') > datetime.now():
+   
+			if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
+				db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0], '%d.%m.%Y %H:%M') > datetime.now():
 				sex = 'Tidak dikenal'
 				user_id = message.from_user.id
 				if db.get_sex(user_id)[0] == 'male':
@@ -765,10 +766,10 @@ async def search_male(message):
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
-					                       reply_markup=kb.stop_kb)
+						                       reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Find someone for you 💕',
-				                       reply_markup=kb.stop_kb)
+			    	                   reply_markup=kb.stop_kb)
 			await Chatting.msg.set()
 		else:
 			await message.answer('Pencarian gender hanya tersedia untuk 👑 pengguna VIP')
@@ -783,19 +784,19 @@ async def chatting(message, state: FSMContext):
 		await state.update_data(msg=message.text)
 		user_data = await state.get_data()
 
-		if user_data['msg'] == '🏹Kirim tautan ke diri Anda sendiri' or user_data['msg'] == '/link':
+		if user_data['msg'] == '🏹 Send the link to yourself' or user_data['msg'] == '/link':
 			if message.from_user.username is None:
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0],
-				                       'Pengguna tidak mengisikan nama panggilan pada pengaturan telegram!')
+				                       'Users do not enter a username in Telegram settings!')
 			else:
 				await message.answer('@' + message.from_user.username)
 		elif user_data['msg'] == '🛑 Stop dialogue' or user_data['msg'] == '/stop':
 			await state.finish()
 			await bot.send_message(message.from_user.id,
-			                       'Dialog terhenti 😞\nAnda dapat menilai lawan bicara Anda di bawah',
+			                       'Dialogue stops 😞\nYou can rate your interlocutor below',
 			                       reply_markup=kb.search_kb, parse_mode=ParseMode.HTML)
 			await bot.send_message(db.get_connect_with(message.from_user.id)[0],
-			                       'Dialog terhenti 😞\nAnda dapat menilai lawan bicara Anda di bawah',
+			                       'Dialogue stops 😞\nYou can rate your interlocutor below',
 			                       reply_markup=kb.search_kb, parse_mode=ParseMode.HTML)
 			db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
 			db.delete_from_queue(message.from_user.id)
@@ -810,9 +811,10 @@ async def chatting(message, state: FSMContext):
 			if str(message.from_user.id) in config.ADMINS:
 				msg = user_data['msg'].strip('/admin')
 				print(msg)
-				await bot.send_message(db.get_connect_with(message.from_user.id)[0], f'Pesan dari Admin:\n{msg}')
+				await bot.send_message(db.get_connect_with(message.from_user.id)[0], f'Message from Admin:\n{msg}')
 			else:
 				await message.answer('Akses ditolak')
+    
 
 		# elif user_data['msg'] == '➡️≈':
 		#     await search(message, state)
@@ -841,7 +843,7 @@ async def chatting(message, state: FSMContext):
 		await state.finish()
 
 	except exceptions.BotBlocked:
-		await message.answer('Pengguna telah meninggalkan bot obrolan!')
+		await message.answer('The user has left the bot conversation!')
 		await state.finish()
 
 	except Exception as e:
@@ -917,7 +919,7 @@ async def chatting_sticker(message, state: FSMContext):
 
 @dp.message_handler()
 async def end(message):
-	await message.answer('Saya tidak tahu apa yang harus saya lakukan dengan ini 😲\nSaya hanya mengingatkan Anda bahwa ada perintah /start dan /help')
+	await message.answer('I dont know what to do with this 😲\nIm just reminding you that there are commands/start dan /help')
 
 
 if __name__ == '__main__':
