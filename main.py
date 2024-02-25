@@ -46,15 +46,15 @@ async def start(message):
 			db.edit_refs(1, user_id)
 			db.edit_points(+200, user_id)
 			if bool(db.get_notifications(user_id)[0]):
-				await bot.send_message(user_id, 'Seseorang bergabung dengan bot menggunakan tautan Anda!')
+				await bot.send_message(user_id, 'Someone joins the bot using your link!')
 				if db.get_refs(user_id)[0] % 10 == 0:
-					await bot.send_message(user_id, 'Anda dapat mematikan notifikasi tentang referensi baru di pengaturan.')
+					await bot.send_message(user_id, 'You can turn off notifications about new referrals in the settings.')
 		if not db.user_exists(message.from_user.id):
-			await message.answer(f"🎉Selamat datang di ONS🎉\n"
-			                     f"Sebelum Anda mulai berkomunikasi, Anda harus mendaftar.\n"
-			                     f"Setelah pendaftaran Anda akan menerima <b>VIP selama sebulan gratis!</b>\n"
-			                     f"Mulai pendaftaran - /daftar\n"
-			                     f"Aturan obrolan - /rules", parse_mode='HTML')
+			await message.answer(f"🎉Welcome to ONS🎉\n"
+			                     f"Before you start communicating, you must register.\n"
+			                     f"After registration you will receive <b>VIP for a month for free!</b>\n"
+			                     f"Start registration - /daftar\n"
+			                     f"Chat rules - /rules", parse_mode='HTML')
 		else:
 			await message.answer(f'Halo, {db.get_name(message.from_user.id)[0]}', reply_markup=kb.main_kb)
 	except Exception as e:
@@ -66,8 +66,8 @@ async def help(message):
 	try:
 		await message.answer(f'/start - Memulai\n'
 		                     f'/rules - Peraturan\n'
-		                     f'/search - Mencari pasangan\n'
-		                     f'/stop - keluar dari obrolan\n'
+		                     f'/search - Find a partner\n'
+		                     f'/stop - stop chat\n'
 		                     f'/vip - VIP\n'
 		                     f'/ref - referal'
 				     f'/trade - trade')
@@ -78,14 +78,14 @@ async def help(message):
 @dp.message_handler(commands=['daftar'])
 async def registrate(message):
 	if not db.user_exists(message.from_user.id):
-		await message.answer("Masukkan nama Anda.")
+		await message.answer("Enter your name.")
 		await RegState.name.set()
 
 
 @dp.message_handler(state=RegState.name)
 async def set_name(message, state: FSMContext):
 	await state.update_data(name=message.text)
-	await message.answer("Sekarang masukkan jenis kelamin Anda (M/F).")
+	await message.answer("Now enter your gender (M/F).")
 	await RegState.sex.set()
 
 
@@ -93,37 +93,39 @@ async def set_name(message, state: FSMContext):
 async def set_sex(message, state: FSMContext):
 	if message.text == 'м' or message.text == 'M':
 		await state.update_data(sex='male')
-		await message.answer("Sekarang masukkan usia Anda.")
+		await state.update_data(op_sex='female')
+		await message.answer("Now enter your age.")
 		await RegState.age.set()
 	elif message.text == 'F' or message.text == 'F':
 		await state.update_data(sex='female')
-		await message.answer("Sekarang masukkan usia Anda.")
+		await state.update_data(op_sex='male')
+		await message.answer("Now enter your age.")
 		await RegState.age.set()
 	else:
-		await message.reply("Anda memasukkan nilai yang salah, silakan masukkan lagi.")
+		await message.reply("You entered the wrong value, type it with numbers, please re-enter it.")
 
 
 @dp.message_handler(state=RegState.age)
 async def set_age(message, state: FSMContext):
 	if 5 < int(message.text) < 100:
 		await state.update_data(age=message.text)
-		await message.answer("tinggal di negara mana?")
+		await message.answer("What country do you live in?")
 		await RegState.country.set()
 	else:
-		await message.reply("Anda memasukkan nilai yang salah, ketik dengan angka, silakan masukkan kembali")
+		await message.reply("You entered the wrong number, please enter it again.")
 
 
 @dp.message_handler(state=RegState.country)
 async def set_country(message, state: FSMContext):
 	await state.update_data(country=message.text)
-	await message.answer("Di kota mana kamu tinggal?")
+	await message.answer("What city do you live in?")
 	await RegState.city.set()
 
 
 @dp.message_handler(state=RegState.city)
 async def set_city(message, state: FSMContext):
 	await state.update_data(city=message.text)
-	await message.answer("Terima kasih telah mendaftar! Anda sekarang dapat mencari - /search.",
+	await message.answer("Thank you for signing up! You can now search - /search.",
 	                     reply_markup=kb.main_kb)
 	data = await state.get_data()
 	db.new_user(data['name'], data['age'], data['sex'], data['country'], data['city'], message.from_user.id)
@@ -134,15 +136,15 @@ async def set_city(message, state: FSMContext):
 
 
 @dp.message_handler(commands=['rules'])
-@dp.message_handler(lambda message: message.text == 'Peraturan 📖')
+@dp.message_handler(lambda message: message.text == 'Rules 📖')
 async def rules(message):
 	try:
-		await message.answer(f'<b>Tidak diperbolehkan dalam obrolan:</b>\n'
-		                     f'1) Setiap penyebutan zat psikoaktif (narkoba).\n'
-		                     f'2) Pertukaran, distribusi 18+ materi apa pun\n'
-		                     f'3) Iklan apa pun, spam, penjualan apa pun.\n'
-		                     f'4) Perilaku menyerang.\n'
-		                     f'5) Tindakan apa pun yang melanggar aturan Telegram.\n',
+		await message.answer(f'<b>Not allowed in chat:</b>\n'
+		                     f'1) Any mention of psychoactive substances (drugs).\n'
+		                     f'2) Change, distribution of any 18+ materials\n'
+		                     f'3) Any advertising, spam, any sales.\n'
+		                     f'4) Attacking behavior.\n'
+		                     f'5) Any action that violates Telegram rules.\n',
 		                     parse_mode='HTML', reply_markup=kb.to_main_kb)
 	except Exception as e:
 		warning_log.warning(e)
@@ -154,7 +156,7 @@ async def rules(message):
 @dp.message_handler(commands=['edit_name'])
 @dp.callback_query_handler(lambda call: call.data == 'name')
 async def edit_name(call):
-	await bot.answer_callback_query(call.id, 'Masukkan nama Anda:')
+	await bot.answer_callback_query(call.id, 'Enter your name:')
 	db.set_state(SetName.waiting.value, call.from_user.id)
 
 
@@ -163,12 +165,12 @@ async def editing_name(message):
 	try:
 		if message.from_user.id not in config.ADMINS:
 			db.edit_name(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(message.from_user.id, "Name saved!", reply_markup=kb.main_kb)
 			db.set_state(SetName.nothing.value, message.from_user.id)
    
 		if str(message.from_user.id) in config.ADMINS:
-			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 1 hari')
-			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 1 hari')
+			await bot.send_message(int(message.text), f'VIP duration has been successfully added by 1 day')
+			await bot.send_message(5458705482, f'VIP duration is successful {message.text} added 1 day')
 			if db.get_vip_ends(int(message.text))[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), int(message.text))
        
@@ -187,17 +189,13 @@ async def editing_name(message):
 @dp.message_handler(commands=['edit_age'])
 @dp.callback_query_handler(lambda call: call.data == 'age')
 async def edit_age(call):
-	await bot.answer_callback_query(call.id, 'Masukkan usia:')
+	await bot.answer_callback_query(call.id, 'Enter age:')
 	db.set_state(SetAge.waiting.value, call.from_user.id)
 
 
 @dp.message_handler(lambda message: db.get_state(message.from_user.id)[0] == SetAge.waiting.value)
 async def editing_age(message):
 	try:
-		if message.from_user.id not in config.ADMINS:
-			db.edit_name(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Nama disimpan!", reply_markup=kb.main_kb)
-			db.set_state(SetName.nothing.value, message.from_user.id)
 		if str(message.from_user.id) in config.ADMINS:
 			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 7 hari')
 			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 7 hari')
@@ -210,7 +208,7 @@ async def editing_age(message):
 			 	 	 timedelta(days=7)).strftime('%d.%m.%Y %H:%M'), message.text)
 		else:
 			db.edit_age(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Usia disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(message.from_user.id, "Age saved!", reply_markup=kb.main_kb)
 			db.set_state(SetAge.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
@@ -220,7 +218,7 @@ async def editing_age(message):
 @dp.callback_query_handler(lambda call: call.data == 'sex')
 async def edit_sex(call):
 	await call.message.edit_reply_markup(reply_markup=kb.sex_kb)
-	await bot.answer_callback_query(call.id, 'Pilih jenis kelamin:')
+	await bot.answer_callback_query(call.id, 'Select gender:')
 	db.set_state(SetSex.waiting.value, call.from_user.id)
 
 
@@ -230,17 +228,17 @@ async def editing_sex(call):
 		if call.data == 'male':
 			db.edit_sex('male', call.from_user.id)
 			db.edit_op_sex('female', call.from_user.id)
-			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(call.from_user.id, "Gender is saved!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
 		elif call.data == 'female':
 			db.edit_sex('female', call.from_user.id)
 			db.edit_op_sex('male', call.from_user.id)
-			await bot.send_message(call.from_user.id, "Jenis kelamin disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(call.from_user.id, "Gender is saved!", reply_markup=kb.main_kb)
 			await bot.delete_message(chat_id=call.from_user.id, message_id=call.message.message_id)
 			db.set_state(SetSex.nothing.value, call.from_user.id)
 		else:
-			await call.reply("Anda memasukkan nilai yang salah, ketik 'male' atau 'female' silakan masukkan kembali")
+			await call.reply("You entered the wrong value, type 'male' or 'female' please enter it again")
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -248,7 +246,7 @@ async def editing_sex(call):
 @dp.message_handler(commands=['edit_country'])
 @dp.callback_query_handler(lambda call: call.data == 'country')
 async def edit_country(call):
-	await bot.answer_callback_query(call.id, 'Masukkan negara Anda:')
+	await bot.answer_callback_query(call.id, 'Enter your country:')
 	db.set_state(SetCountry.waiting.value, call.from_user.id)
 
 
@@ -256,8 +254,8 @@ async def edit_country(call):
 async def editing_country(message):
 	try:
 		if message.from_user.id in config.ADMINS:
-			await bot.send_message(int(message.text), f'Durasi VIP berhasil ditambahkan 31 hari')
-			await bot.send_message(5458705482, f'Durasi VIP berhasil {message.text} ditambahkan 31 hari')
+			await bot.send_message(int(message.text), f'VIP duration successfully added 31 days')
+			await bot.send_message(5458705482, f'VIP duration is successful {message.text} added 31 days')
 			if db.get_vip_ends(int(message.text))[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), int(message.text))
            
@@ -267,7 +265,7 @@ async def editing_country(message):
 			 	 	 timedelta(days=31)).strftime('%d.%m.%Y %H:%M'), message.text)
 		else:
 			db.edit_country(message.text, message.from_user.id)
-			await bot.send_message(message.from_user.id, "Negara disimpan!", reply_markup=kb.main_kb)
+			await bot.send_message(message.from_user.id, "Country saved!", reply_markup=kb.main_kb)
 			db.set_state(SetCountry.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
@@ -276,7 +274,7 @@ async def editing_country(message):
 @dp.message_handler(commands=['edit_city'])
 @dp.callback_query_handler(lambda call: call.data == 'city')
 async def edit_city(call):
-	await bot.answer_callback_query(call.id, 'Masukkan kota:')
+	await bot.answer_callback_query(call.id, 'Enter the city:')
 	db.set_state(SetCity.waiting.value, call.from_user.id)
 
 
@@ -284,7 +282,7 @@ async def edit_city(call):
 async def editing_city(message):
 	try:
 		db.edit_city(message.text, message.from_user.id)
-		await bot.send_message(message.from_user.id, "Kota ini telah diselamatkan!", reply_markup=kb.main_kb)
+		await bot.send_message(message.from_user.id, "This city has been saved!", reply_markup=kb.main_kb)
 		db.set_state(SetCity.nothing.value, message.from_user.id)
 	except Exception as e:
 		warning_log.warning(e)
@@ -293,18 +291,18 @@ async def editing_city(message):
 @dp.message_handler(lambda message: message.text == 'Profil 👤')
 async def profile(message):
 	try:
-		sex = 'Tidak dikenal'
+		sex = 'Unknown'
 		user_id = message.from_user.id
 		if db.get_sex(user_id)[0] == 'male':
 			sex = 'male'
 		elif db.get_sex(user_id)[0] == 'female':
 			sex = 'female'
 		await message.answer(
-			f'🅰️ Nama: {db.get_name(user_id)[0]}\n\n'
-			f'🔞 Usia: {db.get_age(user_id)[0]}\n\n'
-			f'👫 Jenis kelamin: {sex}\n\n'
-			f'🌍 Negara: {db.get_country(user_id)[0]}\n\n'
-			f'🏙️ Kota: {db.get_city(user_id)[0]}\n\n'
+			f'🅰️ Name: {db.get_name(user_id)[0]}\n\n'
+			f'🔞 Age: {db.get_age(user_id)[0]}\n\n'
+			f'👫 Gender: {sex}\n\n'
+			f'🌍 Country: {db.get_country(user_id)[0]}\n\n'
+			f'🏙️ Ciry: {db.get_city(user_id)[0]}\n\n'
 			f'💕 Couple {db.get_op_sex(user_id)[0]}',
    
 			reply_markup=kb.profile_kb)
@@ -313,7 +311,7 @@ async def profile(message):
 
 
 @dp.message_handler(commands=['settings'])
-@dp.message_handler(lambda message: message.text == '⚙️ Sunting profil')
+@dp.message_handler(lambda message: message.text == '⚙️ Edit profile')
 async def settings(message):
 	await message.answer('Pilih parameter yang ingin Anda ubah:', reply_markup=kb.settings_kb)
 
@@ -335,20 +333,20 @@ async def profile(message):
 
 
 @dp.message_handler(commands=['ref'])
-@dp.message_handler(lambda message: message.text == '💼 Rujukan' or message.text == '🆓 Dapatkan VIP secara gratis')
+@dp.message_handler(lambda message: message.text == '💼 Referral' or message.text == '🆓 Dapatkan VIP secara gratis')
 async def ref(message):
 	try:
 		user_id = message.from_user.id
-		await message.answer(f'Bagikan tautan rujukan Anda untuk menerima COIN ONS\n'
-		                     f'1 klik tautan = 200 COIN ONS\n'
-		                     f'1000 COIN ONS = 1 hari status VIP 👑\n')
-		await message.answer(f'Diamond anda {db.get_points(user_id)[0]} COIN ONS')
+		await message.answer(f'Share your referral link to receive COIN ONS\n'
+		                     f'1 click the link = 200 COIN ONS\n'
+		                     f'1000 COIN ONS = 1 day VIP 👑\n')
+		await message.answer(f'Your coins {db.get_points(user_id)[0]} COIN ONS')
 		if bool(db.get_notifications(message.from_user.id)[0]):
-			await message.answer(f'🆔 Tautan referensi Anda:\n'
+			await message.answer(f'🆔 Your referral link:\n'
 			                     f'{"https://t.me/Cintasatumalambot?start=" + str(user_id)}',
 			                     disable_web_page_preview=True, reply_markup=kb.off_kb)
 		else:
-			await message.answer(f'🆔 Tautan refrensi Anda:\n'
+			await message.answer(f'🆔 Your referral link:\n'
 			                     f'{"https://t.me/Cintasatumalambot?start=" + str(user_id)}',
 			                     disable_web_page_preview=True, reply_markup=kb.on_kb)
 	except Exception as e:
@@ -376,31 +374,31 @@ async def trade(message):
 			if db.get_vip_ends(message.from_user.id)[0] is None:
 				db.edit_vip_ends((datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y %H:%M'),
 				                 message.from_user.id)
-				await message.answer('Berhasil!')
+				await message.answer('succeed!')
 			else:
 				db.edit_vip_ends((datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') +
 				                  timedelta(days=1)).strftime('%d.%m.%Y %H:%M'), message.from_user.id)
-			await message.answer('Успешно!')
+			await message.answer('succeed!')
 		else:
-			await message.answer('Anda tidak memiliki cukup poin')
+			await message.answer('You dont have enough coins!')
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == 'Aktifkan notifikasi 🔔')
+@dp.message_handler(lambda message: message.text == 'Enable notifications 🔔')
 async def notifications(message):
 	try:
 		db.edit_notifications(1, message.from_user.id)
-		await message.answer('Pemberitahuan tentang rujukan baru disertakan!', reply_markup=kb.to_main_kb)
+		await message.answer('Notifications about new referrals are turn on!', reply_markup=kb.to_main_kb)
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == 'Matikan notifikasi 🔕')
+@dp.message_handler(lambda message: message.text == 'Turn off notifications 🔕')
 async def notifications(message):
 	try:
 		db.edit_notifications(0, message.from_user.id)
-		await message.answer('Pemberitahuan tentang referensi baru dimatikan!', reply_markup=kb.to_main_kb)
+		await message.answer('Notifications about new referrals are turned off!', reply_markup=kb.to_main_kb)
 	except Exception as e:
 		warning_log.warning(e)
 
@@ -408,25 +406,25 @@ async def notifications(message):
 @dp.callback_query_handler(lambda call: call.data == 'on')
 async def notifications_on(call):
 	await db.edit_notifications(1, call.from_user.id)
-	await call.reply('Notifikasi diaktifkan')
+	await call.reply('Notifications enabled')
 
 
 @dp.callback_query_handler(lambda call: call.data == 'off')
 async def notifications_off(call):
 	await db.edit_notifications(1, call.from_user.id)
-	await call.reply('Notifikasi dimatikan')
+	await call.reply('Notifications are turned off')
 
 
 @dp.message_handler(commands=['top'])
-@dp.message_handler(lambda message: message.text == '🏆 Peringkat')
+@dp.message_handler(lambda message: message.text == '🏆 Rating')
 async def top(message):
 	try:
-		await message.answer('Di bawah ini adalah peringkat berdasarkan berbagai kriteria.', reply_markup=kb.top_kb)
+		await message.answer('Below is the ranking by criteria.', reply_markup=kb.top_kb)
 	except Exception as e:
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '🔝 5 teratas berdasarkan pesan')
+@dp.message_handler(lambda message: message.text == '🔝 5 top based on message')
 async def top(message):
 	try:
 		sp = list(db.top_messages())
@@ -444,7 +442,7 @@ async def top(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '🔝 5 teratas berdasarkan suka')
+@dp.message_handler(lambda message: message.text == '🔝 5 top based on likesa')
 async def top(message):
 	try:
 		sp = list(db.top_likes())
@@ -462,7 +460,7 @@ async def top(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '🔝 5 teratas berdasarkan referal')
+@dp.message_handler(lambda message: message.text == '🔝 5 top based on referrals')
 async def top(message):
 	try:
 		sp = list(db.top_refs())
@@ -488,20 +486,22 @@ async def vip(message):
 			if datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 				delta = datetime.strptime(db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') - datetime.now()
 				await message.answer(
-					f'Tersisa {delta.days} hari, {delta.seconds // 3600} jam, {delta.seconds // 60 % 60} menit VIP',
+					f'Remaining {delta.days} day, {delta.seconds // 3600} hours, {delta.seconds // 60 % 60} second VIP',
 					reply_markup=kb.vip_kb)
 			else:
 				await message.answer(f'VIP member:\n'
-				                     f'1) Cari berdasarkan jenis kelamin.\n'
-				                     f'2) Informasi terperinci tentang lawan bicara: ulasan, nama, jenis kelamin, usia, negara...\n'
-				                     f'3) <b>Tempat pertama dalam antrean.\n</b>'
-				                     f'<i>Ini belum semuanya, fitur akan terus ditambahkan</i>',
+			                     	 f'1) <b>Search by your opposite gender..\n</b>'
+								 	 f'2) <b>Search by your city...\n</b>'
+			                     	 f'3) <b>Detailed information about the interlocutor: reviews, name, age, gender, country, city, and photo profile\n</b>'
+			                     	 f'4) <b>First place in line.\n</b>'
+			                     	 f'<i>Ini belum semuanya, fitur akan terus ditambahkan</i>',
 				                     reply_markup=kb.vip_kb, parse_mode='HTML')
 		else:
-			await message.answer(f'VIP memberi:\n'
-			                     f'1) Cari berdasarkan jenis kelamin.\n'
-			                     f'2) Informasi terperinci tentang lawan bicara: ulasan, nama, umur, jenis kelamin, negara, kota\n'
-			                     f'3) <b>Tempat pertama dalam antrean.\n</b>'
+			await message.answer(f'VIP member:\n'
+			                     f'1) <b>Search by your opposite gender..\n</b>'
+								 f'2) <b>Search by your city...\n</b>'
+			                     f'3) <b>Detailed information about the interlocutor: reviews, name, age, gender, country, city, and photo profile\n</b>'
+			                     f'4) <b>First place in line.\n</b>'
 			                     f'<i>Ini belum semuanya, fitur akan terus ditambahkan</i>',
 			                     reply_markup=kb.vip_kb, parse_mode='HTML')
 	except Exception as e:
@@ -509,14 +509,14 @@ async def vip(message):
 
 
 @dp.message_handler(commands=['buy_vip'])
-@dp.message_handler(lambda message: message.text == '💰 Beli/Perpanjang VIP')
+@dp.message_handler(lambda message: message.text == '💰 Buy/Renew VIP')
 async def buy_vip(message):
 	try:
-		await message.answer('Pilih durasi:', reply_markup=kb.buy_kb)
+		await message.answer('Select duration:', reply_markup=kb.buy_kb)
 	except Exception as e:
 		warning_log.warning(e)
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per hari')
+@dp.message_handler(lambda message: message.text == '👑 VIP / day')
 async def buy_day(message):
 	try:
         
@@ -529,7 +529,7 @@ async def buy_day(message):
 		warning_log.warning(e)
 	
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per minggu')
+@dp.message_handler(lambda message: message.text == '👑 VIP / week')
 async def buy_week(message):
 	try:
         
@@ -542,7 +542,7 @@ async def buy_week(message):
 		warning_log.warning(e)
 
 
-@dp.message_handler(lambda message: message.text == '👑 VIP per bulan')
+@dp.message_handler(lambda message: message.text == '👑 VIP / mouth')
 async def buy_mounth(message):
 	try:
         
@@ -550,7 +550,7 @@ async def buy_mounth(message):
 			await message.answer(f'send id')
 			db.set_state(SetCountry.waiting.value, message.from_user.id)
 		else :
-			await message.answer(f'Contact @nazhak\nPrice 25K COIN ONS')
+			await message.answer(f'Contact @nazhak\nPrice 15K COIN ONS')
 	except Exception as e:
 		warning_log.warning(e)
   
@@ -563,7 +563,7 @@ async def buy_mounth(message):
 @dp.message_handler(lambda message: message.text == '🚫 Cancel search')
 async def cancel_search(message):
 	try:
-		await message.answer('Pencarian dibatalkan. 😥\nKetik /search, untuk mulai mencari',
+		await message.answer('Search cancelled. 😥\nType /search, to start searching',
 		                     reply_markup=kb.main_kb)
 		db.delete_from_queue(message.from_user.id)
 	except Exception as e:
@@ -571,20 +571,20 @@ async def cancel_search(message):
 
 
 @dp.message_handler(commands=['like'])
-@dp.message_handler(lambda message: message.text == '👍 Suka')
+@dp.message_handler(lambda message: message.text == '👍 Like')
 async def like(message):
 	try:
-		await message.answer('Terima kasih atas tanggapan Anda!', reply_markup=kb.main_kb)
+		await message.answer('Thank you for your response!', reply_markup=kb.main_kb)
 		db.edit_likes(1, db.get_last_connect(message.from_user.id)[0])
 	except Exception as e:
 		warning_log.warning(e)
 
 
 @dp.message_handler(commands=['dislike'])
-@dp.message_handler(lambda message: message.text == '👎 Tidak suka')
+@dp.message_handler(lambda message: message.text == '👎 Not like')
 async def dislike(message):
 	try:
-		await message.answer('Terima kasih untuk umpan baliknya!', reply_markup=kb.main_kb)
+		await message.answer('Thanks for the feedback!', reply_markup=kb.main_kb)
 		db.edit_dislikes(1, db.get_last_connect(message.from_user.id)[0])
 	except Exception as e:
 		warning_log.warning(e)
@@ -595,14 +595,14 @@ class Chatting(StatesGroup):
 
 
 @dp.message_handler(commands=['search'])
-@dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
+@dp.message_handler(lambda message: message.text == 'Random 🔀' or message.text == '➡️ Dialog selanjutnya')
 async def search(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
-			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Random 🔀 AGAIN</b>", parse_mode='HTML')
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
-		await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
+		await message.answer('We are looking for someone for you.. 🔍', reply_markup=kb.cancel_search_kb)
 		while True:
 			await asyncio.sleep(0.5)
 			if db.search(message.from_user.id)[0] is not None:
@@ -655,9 +655,9 @@ async def search(message):
 
 
 
-@dp.message_handler(commands=['search_place'])
-@dp.message_handler(lambda message: message.text == 'Looking place 📍')
-async def search_place(message):
+@dp.message_handler(commands=['search_nearby'])
+@dp.message_handler(lambda message: message.text == 'Peaplo nearby 📍 📍')
+async def search_nearby(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
@@ -711,7 +711,7 @@ async def search_place(message):
 					sex = 'male'
 				elif db.get_sex(user_id)[0] == 'female':
 					sex = 'female'
-				text = f'Menemukan seseorang untukmu 💕\n🅰️ Nama: {db.get_name(user_id)[0]}\n🔞 Usia: {db.get_age(user_id)[0]}\n👫 Jenis kelamin: {sex}\n🌍 Negara: {db.get_country(user_id)[0]}\n🏙️ Kota: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
+				text = f'Menemukan seseorang untukmu 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
 					                       reply_markup=kb.stop_kb)
@@ -724,8 +724,8 @@ async def search_place(message):
 	except Exception as e:
 		warning_log.warning(e)
   
-@dp.message_handler(commands=['search_male'])
-@dp.message_handler(lambda message: message.text == 'Male ♂️')
+@dp.message_handler(commands=['search_couple 💕'])
+@dp.message_handler(lambda message: message.text == 'Couple ♂️')
 async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
