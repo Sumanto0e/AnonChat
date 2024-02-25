@@ -622,8 +622,9 @@ async def search(message):
 				sex = 'female'
 			text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 			profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-			await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+			await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")),
 					                       reply_markup=kb.stop_kb)
+			await bot.send_message(message.from_user.id, text, reply_markup=kb.stop_kb)
 		else:
 			await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
    
@@ -637,8 +638,9 @@ async def search(message):
 				sex = 'female'
 			text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 			profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-			await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+			await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")),
 					                       reply_markup=kb.stop_kb)
+			await bot.send_message(db.get_connect_with(message.from_user.id)[0], text, reply_markup=kb.stop_kb)
 		else:
 			await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Menemukan seseorang untukmu 💕',
 			                       reply_markup=kb.stop_kb)
@@ -687,8 +689,10 @@ async def search_nearby(message):
 					sex = 'female'
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-				await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+				await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")),
 						                       reply_markup=kb.stop_kb)
+				await bot.send_message(message.from_user.id, text, reply_markup=kb.stop_kb)
+
 			else:
 				await bot.send_message(message.from_user.id, 'Find someone for you 💕', reply_markup=kb.stop_kb)
    
@@ -702,8 +706,9 @@ async def search_nearby(message):
 					sex = 'female'
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")),
 						                       reply_markup=kb.stop_kb)
+				await bot.send_message(db.get_connect_with(message.from_user.id)[0], text, reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Find someone for you 💕',
 			    	                   reply_markup=kb.stop_kb)
@@ -752,8 +757,10 @@ async def search_male(message):
 					sex = 'female'
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-				await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+				await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")),
 						                       reply_markup=kb.stop_kb)
+				await bot.send_message(message.from_user.id, text, reply_markup=kb.stop_kb)
+    
 			else:
 				await bot.send_message(message.from_user.id, 'Find someone for you 💕', reply_markup=kb.stop_kb)
    
@@ -767,8 +774,9 @@ async def search_male(message):
 					sex = 'female'
 				text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 				profile_pictures = await dp.bot.get_user_profile_photos(user_id)
-				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
+				await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")),
 						                       reply_markup=kb.stop_kb)
+				await bot.send_message(db.get_connect_with(message.from_user.id)[0], text, reply_markup=kb.stop_kb)
 			else:
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Find someone for you 💕',
 			    	                   reply_markup=kb.stop_kb)
@@ -795,10 +803,10 @@ async def chatting(message, state: FSMContext):
 		elif user_data['msg'] == '🛑 Stop dialogue' or user_data['msg'] == '/stop':
 			await state.finish()
 			await bot.send_message(message.from_user.id,
-			                       'Dialogue stops 😞\nYou can rate your interlocutor below',
+			                       'Dialogue stops 😞\nYou can rate your couple below',
 			                       reply_markup=kb.search_kb, parse_mode=ParseMode.HTML)
 			await bot.send_message(db.get_connect_with(message.from_user.id)[0],
-			                       'Dialogue stops 😞\nYou can rate your interlocutor below',
+			                       'Dialogue stops 😞\nYou can rate your couple below',
 			                       reply_markup=kb.search_kb, parse_mode=ParseMode.HTML)
 			db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
 			db.delete_from_queue(message.from_user.id)
