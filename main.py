@@ -93,12 +93,12 @@ async def set_name(message, state: FSMContext):
 async def set_sex(message, state: FSMContext):
 	if message.text == 'м' or message.text == 'M':
 		await state.update_data(sex='male')
-		await state.update_data(op_sex='female')
+		db.edit_op_sex('female', message.from_user.id)
 		await message.answer("Now enter your age.")
 		await RegState.age.set()
 	elif message.text == 'F' or message.text == 'F':
 		await state.update_data(sex='female')
-		await state.update_data(op_sex='male')
+		db.edit_op_sex('male', message.from_user.id)
 		await message.answer("Now enter your age.")
 		await RegState.age.set()
 	else:
