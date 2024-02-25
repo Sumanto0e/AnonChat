@@ -128,6 +128,10 @@ async def set_city(message, state: FSMContext):
 	data = await state.get_data()
 	db.new_user(data['name'], data['age'], data['sex'], data['country'], data['city'], message.from_user.id)
 	await state.finish()
+	if db.get_sex(message.from_user.id)[0] == 'male':
+		db.edit_op_sex('female', message.from_user.id)		
+	elif db.get_sex(message.from_user.id)[0] == 'female':
+		db.edit_op_sex('male', message.from_user.id)
 	if db.get_vip_ends(message.from_user.id)[0] is None:
 		db.edit_vip_ends((datetime.now() + timedelta(days=7)).strftime('%d.%m.%Y %H:%M'),
 		                 message.from_user.id)
