@@ -23,7 +23,7 @@ search_male_kb = ReplyKeyboardMarkup(
     one_time_keyboard=True, resize_keyboard=True).row(like, dislike).add(next_dialog).add(to_main)
 
 like = KeyboardButton('👍 Like')
-dislike = KeyboardButton('👎 Not lke')
+dislike = KeyboardButton('👎 Not like')
 next_dialog = KeyboardButton('➡️ Next dialogue 📍')
 search_female_kb = ReplyKeyboardMarkup(
     one_time_keyboard=True, resize_keyboard=True).row(like, dislike).add(next_dialog).add(to_main)
@@ -46,12 +46,12 @@ settings_kb = InlineKeyboardMarkup(
 
 change_profile = KeyboardButton('⚙️ Edit profile')
 statistic = KeyboardButton('📈 Statistics')
-ref = KeyboardButton('💼 Reference')
+ref = KeyboardButton('💼 Referral')
 profile_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(change_profile).add(
     statistic).add(ref).add(to_main)
 
 vip_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('🆓 Dapatkan VIP secara gratis').add(
-    '💰 Beli/Perpanjang VIP').add(to_main)
+    '💰 Buy/Renew VIP').add(to_main)
 
 day = KeyboardButton('👑 VIP / day')
 week = KeyboardButton('👑 VIP / week')
@@ -72,7 +72,7 @@ off_kb = ReplyKeyboardMarkup(resize_keyboard=True).add('Exchange COIN ONS').add(
 top = KeyboardButton('🏆 Rating')
 statistic_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(top).add(to_main)
 
-top_messages = KeyboardButton('🔝 5 top by message')
+top_messages = KeyboardButton('🔝 5 top based on message')
 top_likes = KeyboardButton('🔝 5 top based on likes')
 top_refs = KeyboardButton('🔝 5 top based on referrals')
 top_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(top_messages).add(top_likes).add(top_refs).add(to_main)
