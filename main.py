@@ -722,7 +722,7 @@ async def search_male(message):
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			db.add_to_queue_vip(message.from_user.id, db.get_op_sex(message.from_user.id)[0], db.get_sex(user_id)[0])
-			await message.answer('We are looking for someone for you.. 🔍\If it takes a long time, try changing your city', reply_markup=kb.cancel_search_kb)
+			await message.answer('We are looking for someone for you.. 🔍', reply_markup=kb.cancel_search_kb)
 			while True:
 				user_id = message.from_user.id
 				await asyncio.sleep(0.5)	
