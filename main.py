@@ -592,14 +592,14 @@ class Chatting(StatesGroup):
 
 
 @dp.message_handler(commands=['search'])
-@dp.message_handler(lambda message: message.text == 'Random 🔀' or message.text == '➡️ Dialog selanjutnya')
+@dp.message_handler(lambda message: message.text == 'Acak 🔀' or message.text == '➡️ Dialog selanjutnya')
 async def search(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
 		if check_member.status not in ["member", "creator"]:
-			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Random 🔀 AGAIN</b>", parse_mode='HTML')
+			return await message.reply("<b>JOIN THE FIRST CHANNEL @ONSBASE AND DO IT Acak 🔀 AGAIN</b>", parse_mode='HTML')
 		db.add_to_queue(message.from_user.id, db.get_sex(message.from_user.id)[0])
-		await message.answer('We are looking for someone for you.. 🔍', reply_markup=kb.cancel_search_kb)
+		await message.answer('Kami sedang mencari seseorang untuk anda.. 🔍', reply_markup=kb.cancel_search_kb)
 		while True:
 			await asyncio.sleep(0.5)
 			if db.search(message.from_user.id)[0] is not None:
@@ -623,10 +623,9 @@ async def search(message):
 			text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 			profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 			await bot.send_photo(message.from_user.id, (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
-					                       reply_markup=kb.stop_kb)
+						                       reply_markup=kb.stop_kb)
 		else:
 			await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
-   
 		if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
 			db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0], '%d.%m.%Y %H:%M') > datetime.now():
 			sex = 'Tidak dikenal'
@@ -635,7 +634,7 @@ async def search(message):
 				sex = 'male'
 			elif db.get_sex(user_id)[0] == 'female':
 				sex = 'female'
-			text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
+			text = f'Menemukan seseorang untukmu 💕\n🅰️ Nama: {db.get_name(user_id)[0]}\n🔞 Usia: {db.get_age(user_id)[0]}\n👫 Jenis kelamin: {sex}\n🌍 Negara: {db.get_country(user_id)[0]}\n🏙️ Kota: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
 			profile_pictures = await dp.bot.get_user_profile_photos(user_id)
 			await bot.send_photo(db.get_connect_with(message.from_user.id)[0], (dict((profile_pictures.photos[0][0])).get("file_id")), caption=text,
 					                       reply_markup=kb.stop_kb)
@@ -649,7 +648,7 @@ async def search(message):
 
 
 @dp.message_handler(commands=['search_nearby'])
-@dp.message_handler(lambda message: message.text == 'Peaplo nearby 📍')
+@dp.message_handler(lambda message: message.text == 'Peaplo nearby 📍' or message.text == '➡️ Next dialogue 📍')
 async def search_nearby(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
@@ -714,7 +713,7 @@ async def search_nearby(message):
 		warning_log.warning(e)
   
 @dp.message_handler(commands=['search_couple'])
-@dp.message_handler(lambda message: message.text == 'Couple 💕')
+@dp.message_handler(lambda message: message.text == 'Couple 💕' or message.text == '➡️ Next dialogue 💕')
 async def search_male(message):
 	try:
 		check_member = await bot.get_chat_member(-1001771712186, message.from_user.id)
