@@ -42,7 +42,7 @@ sex = InlineKeyboardButton('👫 Gender', callback_data='sex')
 country = InlineKeyboardButton('🌍 Country', callback_data='country')
 city = InlineKeyboardButton('🏙️ City', callback_data='city')
 settings_kb = InlineKeyboardMarkup(
-    resize_keyboard=True).add(name).add(age).add(sex).add(country).add(city).add(op_sex)
+    resize_keyboard=True).add(name).add(age).add(sex).add(country).add(city)
 
 change_profile = KeyboardButton('⚙️ Edit profile')
 statistic = KeyboardButton('📈 Statistics')
