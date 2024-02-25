@@ -12,9 +12,8 @@ stop_kb = ReplyKeyboardMarkup(one_time_keyboard=True,
 
 like = KeyboardButton('👍 Like')
 dislike = KeyboardButton('👎 Not like')
-next_dialog = KeyboardButton('➡️ Next dialogue')
 search_kb = ReplyKeyboardMarkup(
-    one_time_keyboard=True, resize_keyboard=True).row(like, dislike).add(next_dialog).add(to_main)
+    one_time_keyboard=True, resize_keyboard=True).row(like, dislike).add(to_main)
 
 like = KeyboardButton('👍 Like')
 dislike = KeyboardButton('👎 Not like')
