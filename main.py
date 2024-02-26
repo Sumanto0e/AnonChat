@@ -640,8 +640,15 @@ async def search(message):
 				sex = 'male'
 			elif db.get_sex(user_id)[0] == 'female':
 				sex = 'female'
-			text = f'Find someone for you 💕\n🅰️ Name: {db.get_name(user_id)[0]}\n🔞 Age: {db.get_age(user_id)[0]}\n👫 Gender: {sex}\n🌍 Country: {db.get_country(user_id)[0]}\n🏙️ City: {db.get_city(user_id)[0]}\n👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}'
-			await bot.send_message(db.get_connect_with(message.from_user.id)[0], text, reply_markup=kb.stop_kb)
+			await bot.send_message(db.get_connect_with(message.from_user.id)[0],
+					                    f'Found someone for you 💕\n'
+					                    f'🅰️ Name   : {db.get_name(user_id)[0]}\n'
+					                    f'🔞 Age    : {db.get_age(user_id)[0]}\n'
+					                    f'👫 Gender : {sex}\n'
+					                    f'🌍 Country: {db.get_country(user_id)[0]}\n'
+					                    f'🏙️ City   : {db.get_city(user_id)[0]}\n'
+					                    f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
+					                    reply_markup=kb.stop_kb)
 		else:
 			await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Menemukan seseorang untukmu 💕',
 			                       reply_markup=kb.stop_kb)
