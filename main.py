@@ -655,7 +655,7 @@ async def search(message):
 			                       reply_markup=kb.stop_kb)
 		await Chatting.msg.set()
 	except Exception as e:
-		warning_log.warning(e)
+		warning_log.warning(message, e)
 
 
 
@@ -733,7 +733,7 @@ async def search_nearby(message):
 		else:
 			await message.answer('People nearby search is only available for 👑 VIP users')
 	except Exception as e:
-		warning_log.warning(e)
+		warning_log.warning(message, e)
   
 @dp.message_handler(commands=['search_couple'])
 @dp.message_handler(lambda message: message.text == 'Couple 💕' or message.text == '➡️ Next dialogue 💕')
@@ -808,7 +808,7 @@ async def search_male(message):
 		else:
 			await message.answer('Pencarian gender hanya tersedia untuk 👑 pengguna VIP')
 	except Exception as e:
-		warning_log.warning(e)
+		warning_log.warning(message, e)
 
 
 @dp.message_handler(content_types=ContentTypes.TEXT)
