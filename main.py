@@ -612,6 +612,7 @@ async def search(message):
 				db.delete_from_queue(message.from_user.id)
 				db.delete_from_queue(db.get_connect_with(message.from_user.id)[0])
 				break
+
 		if db.get_vip_ends(message.from_user.id)[0] is not None and datetime.strptime(
 			db.get_vip_ends(message.from_user.id)[0], '%d.%m.%Y %H:%M') > datetime.now():
 			sex = 'Tidak dikenal'
@@ -630,7 +631,7 @@ async def search(message):
 					                f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
 					                reply_markup=kb.stop_kb)
 		else:
-			await bot.send_message(message.from_user.id, 'Menemukan seseorang untukmu 💕', reply_markup=kb.stop_kb)
+			await bot.send_message(message.from_user.id, 'Found someone for you 💕', reply_markup=kb.stop_kb)
    
 		if db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0] is not None and datetime.strptime(
 			db.get_vip_ends(db.get_connect_with(message.from_user.id)[0])[0], '%d.%m.%Y %H:%M') > datetime.now():
@@ -650,7 +651,7 @@ async def search(message):
 					                    f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
 					                    reply_markup=kb.stop_kb)
 		else:
-			await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Menemukan seseorang untukmu 💕',
+			await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Found someone for you 💕',
 			                       reply_markup=kb.stop_kb)
 		await Chatting.msg.set()
 	except Exception as e:
@@ -716,14 +717,14 @@ async def search_nearby(message):
 				elif db.get_sex(user_id)[0] == 'female':
 					sex = 'female'
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0],
-					                       f'Found someone for you 💕\n'
-					                       f'🅰️ Name   : {db.get_name(user_id)[0]}\n'
-					                       f'🔞 Age    : {db.get_age(user_id)[0]}\n'
-					                       f'👫 Gender : {sex}\n'
-					                       f'🌍 Country: {db.get_country(user_id)[0]}\n'
-					                       f'🏙️ City   : {db.get_city(user_id)[0]}\n'
-					                       f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
-					                       reply_markup=kb.stop_kb)
+					                    f'Found someone for you 💕\n'
+					                    f'🅰️ Name   : {db.get_name(user_id)[0]}\n'
+					                    f'🔞 Age    : {db.get_age(user_id)[0]}\n'
+					                    f'👫 Gender : {sex}\n'
+					                    f'🌍 Country: {db.get_country(user_id)[0]}\n'
+					                    f'🏙️ City   : {db.get_city(user_id)[0]}\n'
+					                    f'👍: {db.get_likes(user_id)[0]} 👎: {db.get_dislikes(user_id)[0]}\n',
+					                    reply_markup=kb.stop_kb)
 				
 			else:
 				await bot.send_message(db.get_connect_with(message.from_user.id)[0], 'Find someone for you 💕',
